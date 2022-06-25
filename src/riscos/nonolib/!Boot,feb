@@ -1,0 +1,2 @@
+Set NonoLib$Dir <Obey$Dir>
+Set NonoLib$Path <NonoLib$Dir>.Library.

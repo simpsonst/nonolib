@@ -1,0 +1,4 @@
+Set NonoLib$Dir <Obey$Dir>
+Set NonoLib$Path <NonoLib$Dir>.
+
+Filer_OpenDir NonoLib:Docs
