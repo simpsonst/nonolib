@@ -6,7 +6,7 @@ dnl
 #define nonogram_MINOR 0
 #define nonogram_PATCHLEVEL 0
 
-regexp(VERSION, `^\([0-9]+\)\([^.]\)?\.\([0-9]+\)\([^.]\)?\.\([0-9]+\)', ``
+regexp(VERSION, `^v\([0-9]+\)\([^.]\)?\.\([0-9]+\)\([^.]\)?\.\([0-9]+\)', ``
 #undef nonogram_VERSION
 #undef nonogram_MINOR
 #undef nonogram_PATCHLEVEL

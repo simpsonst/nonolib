@@ -6,10 +6,11 @@ XARGS=xargs
 M4=m4
 CAT=cat
 CP=cp
+GETVERSION=git describe --tags
 
 PREFIX=/usr/local
 
-VERSION:=$(shell $(CAT) docs/VERSION 2> /dev/null)
+VERSION:=$(shell $(GETVERSION) 2> /dev/null)
 
 ## Provide a version of $(abspath) that can cope with spaces in the
 ## current directory.
@@ -40,7 +41,7 @@ nonogram_mod += cache
 
 headers += nonogram.h
 headers += nonocache.h
-#headers += nonogram_version.h
+headers += nonogram_version.h
 
 test_binaries += testline
 testline_obj += testline
@@ -62,7 +63,7 @@ nonolib_rof += $(call riscos_lib,$(libraries))
 # nonolib_rof += CONTACT,fff
 # nonolib_rof += HISTORY,fff
 nonolib_rof += COPYING,fff
-# nonolib_rof += VERSION,fff
+nonolib_rof += VERSION,fff
 # nonolib_rof += TODO,fff
 
 include binodeps.mk
@@ -85,18 +86,24 @@ $(BINODEPS_OUTDIR)/riscos/!NonoLib/COPYING,fff: LICENSE.txt
 	$(MKDIR) "$(@D)"
 	$(CP) "$<" "$@"
 
-# prepare-version::
-# 	@$(ECHO) $(VERSION) > docs/excluded-VERSION
+$(BINODEPS_OUTDIR)/riscos/!NonoLib/VERSION,fff: VERSION
+	$(MKDIR) "$(@D)"
+	$(CP) "$<" "$@"
 
-# docs/excluded-VERSION: | prepare-version
-# docs/VERSION: docs/excluded-VERSION
-# 	@$(CMP) -s '$<' '$@' || $(CP) '$<' '$@'
+ifneq ($(VERSION),)
+prepare-version::
+	@$(MKDIR) tmp/
+	@$(ECHO) $(VERSION) > tmp/VERSION
 
+tmp/VERSION: | prepare-version
+VERSION: tmp/VERSION
+	@$(CMP) -s '$<' '$@' || $(CP) '$<' '$@'
+endif
 
-# tmp/obj/nonogram_version.h: src/obj/nonogram_version.h.m4 docs/VERSION
-# 	@$(PRINTF) '[version header]\n'
-# 	@$(MKDIR) '$(@D)'
-# 	@$(M4) -DVERSION='`$(VERSION)'"'" < '$<' > '$@'
+tmp/obj/nonogram_version.h: src/obj/nonogram_version.h.m4 VERSION
+	@$(PRINTF) '[version header %s]\n' "$(file <VERSION)"
+	@$(MKDIR) '$(@D)'
+	@$(M4) -DVERSION='`$(file <VERSION)'"'" < '$<' > '$@'
 
 
 install:: install-libraries install-headers
@@ -113,3 +120,6 @@ YEARS=2001,2005-8,2012
 update-licence:
 	$(FIND) . -name ".svn" -prune -or -type f -print0 | $(XARGS) -0 \
 	$(SED) -i 's/Copyright (C) [0-9,-]\+  Steven Simpson/Copyright (C) $(YEARS)  Steven Simpson/g'
+
+distclean:: blank
+	$(RM) VERSION
