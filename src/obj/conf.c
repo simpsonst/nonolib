@@ -1,3 +1,5 @@
+// -*- c-basic-offset: 2; indent-tabs-mode: nil -*-
+
 /*
  *  Nonolib - Nonogram-solver library
  *  Copyright (C) 2001,2005-8,2012  Steven Simpson
@@ -24,8 +26,8 @@
 #include "nonogram.h"
 
 int nonogram_setlinesolver(nonogram_solver *c,
-			   nonogram_level lvl, const char *n,
-			   const struct nonogram_linesuite *s, void *conf)
+                           nonogram_level lvl, const char *n,
+                           const struct nonogram_linesuite *s, void *conf)
 {
   if (c->puzzle) return -1;
   if (lvl < 1 || lvl > c->levels) return -1;
@@ -55,8 +57,8 @@ nonogram_level nonogram_getlinesolvers(nonogram_solver *c)
 }
 
 int nonogram_setclient(nonogram_solver *c,
-		       const struct nonogram_client *client,
-		       void *client_data)
+                       const struct nonogram_client *client,
+                       void *client_data)
 {
   if (c->puzzle) return -1;
   c->client_data = client_data;
@@ -65,8 +67,8 @@ int nonogram_setclient(nonogram_solver *c,
 }
 
 int nonogram_setdisplay(nonogram_solver *c,
-			const struct nonogram_display *display,
-			void *display_data)
+                        const struct nonogram_display *display,
+                        void *display_data)
 {
   if (c->puzzle) return -1;
   c->display_data = display_data;

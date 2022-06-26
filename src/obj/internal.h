@@ -1,3 +1,5 @@
+// -*- c-basic-offset: 2; indent-tabs-mode: nil -*-
+
 /*
  *  Nonolib - Nonogram-solver library
  *  Copyright (C) 2001,2005-8,2012  Steven Simpson

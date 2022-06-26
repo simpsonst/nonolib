@@ -1,3 +1,5 @@
+// -*- c-basic-offset: 2; indent-tabs-mode: nil -*-
+
 /*
  *  Nonolib - Nonogram-solver library
  *  Copyright (C) 2001,2005-8,2012  Steven Simpson
@@ -87,25 +89,25 @@ extern "C" {
   nonogram_deprecated(typedef nonogram_errorproc nonogram_error_f);
 
   int nonogram_spscanpuzzle_ef(nonogram_puzzle *p,
-			       const char **s, const char *e,
-			       nonogram_errorproc *, void *);
+                               const char **s, const char *e,
+                               nonogram_errorproc *, void *);
   int nonogram_spscanpuzzle(nonogram_puzzle *p,
-			    const char **s, const char *e);
+                            const char **s, const char *e);
 
   int nonogram_fscanpuzzle_ef(nonogram_puzzle *p, FILE *fp,
-			      nonogram_errorproc *, void *);
+                              nonogram_errorproc *, void *);
   int nonogram_fscanpuzzle(nonogram_puzzle *p, FILE *fp);
 
   int nonogram_makepuzzle(nonogram_puzzle *p, const nonogram_cell *g,
-			  size_t w, size_t h);
+                          size_t w, size_t h);
   void nonogram_freepuzzle(nonogram_puzzle *p);
   int nonogram_copypuzzle(nonogram_puzzle *to,
-			  const nonogram_puzzle *from);
+                          const nonogram_puzzle *from);
 
   int nonogram_verifypuzzle(const nonogram_puzzle *p);
   float nonogram_judgepuzzle(const nonogram_puzzle *p);
   int nonogram_comparepuzzles(const nonogram_puzzle *p1,
-			      const nonogram_puzzle *p2);
+                              const nonogram_puzzle *p2);
 
   int nonogram_fprintpuzzle(const nonogram_puzzle *p, FILE *fp);
 #define nonogram_puzzlewidth(P) ((size_t) (P)->width)
@@ -116,13 +118,13 @@ extern "C" {
   int nonogram_setrowlen(nonogram_puzzle *p, size_t line, size_t len);
   int nonogram_setcollen(nonogram_puzzle *p, size_t line, size_t len);
   int nonogram_setrowblock(nonogram_puzzle *p, size_t line,
-			   size_t pos, nonogram_sizetype val);
+                           size_t pos, nonogram_sizetype val);
   int nonogram_setcolblock(nonogram_puzzle *p, size_t line, size_t pos,
-			   nonogram_sizetype val);
+                           nonogram_sizetype val);
   int nonogram_appendrowblock(nonogram_puzzle *p,
-			      size_t line, nonogram_sizetype val);
+                              size_t line, nonogram_sizetype val);
   int nonogram_appendcolblock(nonogram_puzzle *p,
-			      size_t line, nonogram_sizetype val);
+                              size_t line, nonogram_sizetype val);
 
   int nonogram_unsetnote(nonogram_puzzle *p, const char *n);
   int nonogram_setnote(nonogram_puzzle *p, const char *n, const char *v);
@@ -141,7 +143,7 @@ extern "C" {
 
   int nonogram_checkgrid(const nonogram_puzzle *p, const nonogram_cell *g);
   int nonogram_checkline(const nonogram_sizetype *r, size_t, ptrdiff_t rstep,
-			 const nonogram_cell *st, size_t, ptrdiff_t step);
+                         const nonogram_cell *st, size_t, ptrdiff_t step);
 
 
   /******* solver state ******/
@@ -153,12 +155,12 @@ extern "C" {
   int nonogram_termsolver(nonogram_solver *);
 
   int nonogram_load(nonogram_solver *c,
-		    const nonogram_puzzle *puzzle,
-		    nonogram_cell *grid, int remcells);
+                    const nonogram_puzzle *puzzle,
+                    nonogram_cell *grid, int remcells);
   int nonogram_unload(nonogram_solver *c);
 
   int nonogram_setlog(nonogram_solver *c,
-		      FILE *logfile, int indent, int level);
+                      FILE *logfile, int indent, int level);
 
 
   /******* solver activity *******/
@@ -188,8 +190,8 @@ extern "C" {
   };
 
   int nonogram_setclient(nonogram_solver *c,
-			 const struct nonogram_client *client,
-			 void *client_data);
+                         const struct nonogram_client *client,
+                         void *client_data);
 
 
   /******* verbose solution *******/
@@ -198,7 +200,7 @@ extern "C" {
   struct nonogram_rect { struct nonogram_point min, max; };
 
   typedef void nonogram_redrawareaproc(void *ctxt,
-				       const struct nonogram_rect *area);
+                                       const struct nonogram_rect *area);
   nonogram_deprecated(typedef nonogram_redrawareaproc nonogram_redrawarea_f);
   typedef void nonogram_focusproc(void *ctxt, size_t, int);
   nonogram_deprecated(typedef nonogram_focusproc nonogram_focus_f);
@@ -212,8 +214,8 @@ extern "C" {
   };
 
   int nonogram_setdisplay(nonogram_solver *c,
-			  const struct nonogram_display *display,
-			  void *display_data);
+                          const struct nonogram_display *display,
+                          void *display_data);
 
 #define nonogram_limitrow(S,R,X,F) \
   ((R) < (S)->puzzle->height ? (X) : (F))
@@ -228,11 +230,11 @@ extern "C" {
 
   /* check if a line is being worked on */
 #define nonogram_getrowfocus(S,R) \
-  nonogram_limitrow((S),(R),(S)->on_row &&				\
-		    (S)->focus && (unsigned) (S)->lineno == (R),false)
+  nonogram_limitrow((S),(R),(S)->on_row &&                              \
+                    (S)->focus && (unsigned) (S)->lineno == (R),false)
 #define nonogram_getcolfocus(S,C) \
-  nonogram_limitcol((S),(C),!(S)->on_row &&			\
-		    (S)->focus && (unsigned) (S)->lineno == (C),false)
+  nonogram_limitcol((S),(C),!(S)->on_row &&                     \
+                    (S)->focus && (unsigned) (S)->lineno == (C),false)
 
 
   /******* line-solver characteristics *******/
@@ -275,10 +277,10 @@ extern "C" {
   };
 
   typedef void nonogram_prepproc(void *, const struct nonogram_lim *,
-				 struct nonogram_req *);
+                                 struct nonogram_req *);
   nonogram_deprecated(typedef nonogram_prepproc nonogram_prep_f);
   typedef int nonogram_initproc(void *, struct nonogram_ws *ws,
-				const struct nonogram_initargs *);
+                                const struct nonogram_initargs *);
   nonogram_deprecated(typedef nonogram_initproc nonogram_init_f);
   typedef int nonogram_stepproc(void *, void *ws);
   nonogram_deprecated(typedef nonogram_stepproc nonogram_step_f);
@@ -294,8 +296,8 @@ extern "C" {
   };
 
   int nonogram_setlinesolver(nonogram_solver *c, nonogram_level,
-			     const char *n,
-			     const struct nonogram_linesuite *, void *conf);
+                             const char *n,
+                             const struct nonogram_linesuite *, void *conf);
   int nonogram_setlinesolvers(nonogram_solver *c, nonogram_level levels);
   nonogram_level nonogram_getlinesolvers(nonogram_solver *c);
 
@@ -354,11 +356,11 @@ extern "C" {
      Internal workings will be written to log (if not NULL), and level
      is sufficiently high, indented by the specified amount.  */
   int nonogram_push(const nonogram_cell *line,
-		    size_t linelen, ptrdiff_t linestep,
-		    const nonogram_sizetype *rule,
-		    size_t rulelen, ptrdiff_t rulestep,
-		    nonogram_sizetype *pos, ptrdiff_t posstep,
-		    ptrdiff_t *solid, FILE *log, int level, int indent);
+                    size_t linelen, ptrdiff_t linestep,
+                    const nonogram_sizetype *rule,
+                    size_t rulelen, ptrdiff_t rulestep,
+                    nonogram_sizetype *pos, ptrdiff_t posstep,
+                    ptrdiff_t *solid, FILE *log, int level, int indent);
 
 
 
@@ -537,16 +539,16 @@ extern "C" {
   extern const nonogram_puzzle nonogram_nullpuzzle;
 
   int nonogram_printgrid(const nonogram_cell *grid,
-			 size_t width, size_t height,
-			 FILE *fp, const char *solid, const char *dot,
-			 const char *blank);
+                         size_t width, size_t height,
+                         FILE *fp, const char *solid, const char *dot,
+                         const char *blank);
   int nonogram_printhtmlgrid(const nonogram_cell *grid,
-			     size_t width, size_t height,
-			     FILE *fp, const char *solid, const char *dot,
-			     const char *blank, int table);
+                             size_t width, size_t height,
+                             FILE *fp, const char *solid, const char *dot,
+                             const char *blank, int table);
   int nonogram_scangrid(nonogram_cell *grid,
-			size_t width, size_t height, FILE *fp,
-			char solid, char dot);
+                        size_t width, size_t height, FILE *fp,
+                        char solid, char dot);
 
 #ifdef __cplusplus
 }

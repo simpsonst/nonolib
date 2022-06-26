@@ -1,3 +1,5 @@
+// -*- c-basic-offset: 2; indent-tabs-mode: nil -*-
+
 /*
  *  Nonolib - Nonogram-solver library
  *  Copyright (C) 2001,2005-8,2012  Steven Simpson
@@ -30,7 +32,7 @@
 #endif
 
 int nonogram_checkline(const nonogram_sizetype *r,
-		       size_t rlen, ptrdiff_t rstep,
+                       size_t rlen, ptrdiff_t rstep,
                        const nonogram_cell *st, size_t len, ptrdiff_t step)
 {
   unsigned rno = 0, index = 0, blen = 0;
@@ -80,11 +82,11 @@ int nonogram_checkline(const nonogram_sizetype *r,
    pos[posstep], ...  solid is workspace, an array of at least rulelen
    elements.  Return 0 if inconsistency detected; 1 if okay. */
 int nonogram_push(const nonogram_cell *line,
-		  size_t linelen, ptrdiff_t linestep,
-		  const nonogram_sizetype *rule,
-		  size_t rulelen, ptrdiff_t rulestep,
-		  nonogram_sizetype *pos, ptrdiff_t posstep,
-		  ptrdiff_t *solid, FILE *log, int level, int indent)
+                  size_t linelen, ptrdiff_t linestep,
+                  const nonogram_sizetype *rule,
+                  size_t rulelen, ptrdiff_t rulestep,
+                  nonogram_sizetype *pos, ptrdiff_t posstep,
+                  ptrdiff_t *solid, FILE *log, int level, int indent)
 {
   /* working variables */
   size_t i;
@@ -190,14 +192,14 @@ int nonogram_push(const nonogram_cell *line,
 
         /* find an earlier block that can be moved to cover the solid
            covered by the next block without uncovering its own */
-	do {
-	  if (block == 0)
-	    return 0;
-	  block--;
-	} while (solid[block] >= 0 &&
-		 pos[(block + 1) * posstep] + solid[block + 1]
-		 - rule[block * rulestep] + 1 >
-		 pos[block * posstep] + solid[block]);
+        do {
+          if (block == 0)
+            return 0;
+          block--;
+        } while (solid[block] >= 0 &&
+                 pos[(block + 1) * posstep] + solid[block + 1]
+                 - rule[block * rulestep] + 1 >
+                 pos[block * posstep] + solid[block]);
 
         /* set the block near to the position of the next block,
            so that it just overlaps the solid, and try again */
@@ -243,13 +245,13 @@ int nonogram_push(const nonogram_cell *line,
 
       /* find an earlier block that isn't covering a solid */
       do {
-	if (block == 0)
-	  return 0;
-	block--;
+        if (block == 0)
+          return 0;
+        block--;
       } while (solid[block] >= 0 &&
-	       pos[(block + 1) * posstep] + solid[block + 1]
-	       - rule[block * rulestep] + 1 >
-	       pos[block * posstep] + solid[block]);
+               pos[(block + 1) * posstep] + solid[block + 1]
+               - rule[block * rulestep] + 1 >
+               pos[block * posstep] + solid[block]);
 
       /* set the block near to the position of the next block,
          so that it just overlaps the solid, and try again */
@@ -284,14 +286,14 @@ int nonogram_push(const nonogram_cell *line,
           /* if all previous blocks cover solids, then fail */
 
           /* find an earlier block that isn't covering a solid */
-	  do {
-	    if (block == 0)
-	      return 0;
-	    block--;
-	  } while (solid[block] >= 0 &&
-		   pos[(block + 1) * posstep] + solid[block + 1]
-		   - rule[block * rulestep] + 1 >
-		   pos[block * posstep] + solid[block]);
+          do {
+            if (block == 0)
+              return 0;
+            block--;
+          } while (solid[block] >= 0 &&
+                   pos[(block + 1) * posstep] + solid[block + 1]
+                   - rule[block * rulestep] + 1 >
+                   pos[block * posstep] + solid[block]);
 
           /* set the block near to the position of the next block,
              so that it just overlaps the solid, and try again */

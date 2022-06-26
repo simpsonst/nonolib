@@ -1,3 +1,5 @@
+// -*- c-basic-offset: 2; indent-tabs-mode: nil -*-
+
 /*
  *  Nonolib - Nonogram-solver library
  *  Copyright (C) 2001,2005-8,2012  Steven Simpson
@@ -33,9 +35,9 @@ extern "C" {
   int nonocache_encodepuzzle(char **out, size_t *len, const nonogram_puzzle *);
   int nonocache_decodepuzzle(const char **in, size_t *len, nonogram_puzzle *);
   int nonocache_encodecells(char **out, size_t *len,
-			    size_t w, size_t h, const nonogram_cell *);
+                            size_t w, size_t h, const nonogram_cell *);
   int nonocache_decodecells(const char **in, size_t *len,
-			    size_t w, size_t h, nonogram_cell *);
+                            size_t w, size_t h, nonogram_cell *);
 
 #ifdef __cplusplus
 }

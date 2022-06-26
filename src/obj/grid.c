@@ -1,3 +1,5 @@
+// -*- c-basic-offset: 2; indent-tabs-mode: nil -*-
+
 /*
  *  Nonolib - Nonogram-solver library
  *  Copyright (C) 2001,2005-8,2012  Steven Simpson
@@ -39,7 +41,7 @@ void nonogram_cleargrid(nonogram_cell *grid, size_t width, size_t height)
 
 #if false
 int nonogram_scangrid(nonogram_cell *grid, size_t width, size_t height,
-		      FILE *fp, char solid, char dot)
+                      FILE *fp, char solid, char dot)
 {
   size_t row, col;
   int c;
@@ -83,9 +85,9 @@ int nonogram_checkgrid(const nonogram_puzzle *p, const nonogram_cell *g)
 }
 
 int nonogram_printgrid(const nonogram_cell *grid,
-		       size_t width, size_t height,
-		       FILE *fp, const char *solid, const char *dot,
-		       const char *blank)
+                       size_t width, size_t height,
+                       FILE *fp, const char *solid, const char *dot,
+                       const char *blank)
 {
   int r = 0;
 
@@ -93,21 +95,21 @@ int nonogram_printgrid(const nonogram_cell *grid,
     for (size_t x = 0; x < width; x++)
       switch (grid[x + y * width]) {
       case nonogram_DOT:
-	r += fprintf(fp, "%s", dot);
-	break;
+        r += fprintf(fp, "%s", dot);
+        break;
 
       case nonogram_SOLID:
-	r += fprintf(fp, "%s", solid);
-	break;
+        r += fprintf(fp, "%s", solid);
+        break;
 
       case nonogram_BLANK:
-	r += fprintf(fp, "%s", blank);
-	break;
+        r += fprintf(fp, "%s", blank);
+        break;
 
       default:
-	fputc('?', fp);
-	r++;
-	break;
+        fputc('?', fp);
+        r++;
+        break;
       }
     fputc('\n', fp);
     r++;

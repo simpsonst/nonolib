@@ -1,3 +1,5 @@
+// -*- c-basic-offset: 2; indent-tabs-mode: nil -*-
+
 /*
  *  Nonolib - Nonogram-solver library
  *  Copyright (C) 2001,2005-8,2012  Steven Simpson
@@ -26,7 +28,7 @@
 #include "nonogram.h"
 
 static void compprep(void *c,
-		     const struct nonogram_lim *l, struct nonogram_req *r)
+                     const struct nonogram_lim *l, struct nonogram_req *r)
 {
   c = c;
 
@@ -71,10 +73,10 @@ struct working {
 };
 
 static void check_cell(const struct nonogram_initargs *a,
-		       struct nonogram_ws *c,
-		       struct working *wp,
-		       nonogram_sizetype pos,
-		       int *skip)
+                       struct nonogram_ws *c,
+                       struct working *wp,
+                       nonogram_sizetype pos,
+                       int *skip)
 {
   /* Ignore cells which we already know. */
   if (INPUT(pos) != nonogram_BLANK) {
@@ -103,10 +105,10 @@ static void check_cell(const struct nonogram_initargs *a,
 
   /* Now see if it still fits. */
   if (nonogram_push(a->result, a->linelen, a->resultstep,
-		    a->rule, a->rulelen, a->rulestep,
-		    wp->waste, 1,
-		    wp->pushspace,
-		    NULL, 0, 0)) {
+                    a->rule, a->rulelen, a->rulestep,
+                    wp->waste, 1,
+                    wp->pushspace,
+                    NULL, 0, 0)) {
     /* The pattern still matches, so we can't deduce that our
        contrary guess is false.  Put it back, and start skipping. */
     OUTPUT(pos) = nonogram_BLANK;
@@ -125,10 +127,10 @@ static void check_cell(const struct nonogram_initargs *a,
 /* Search a section of the line for positions that agree in both the
    extreme-left and extreme-right arrangements. */
 static void search_section(const struct nonogram_initargs *a,
-			   struct nonogram_ws *c,
-			   struct working *wp,
-			   nonogram_sizetype start,
-			   nonogram_sizetype end)
+                           struct nonogram_ws *c,
+                           struct working *wp,
+                           nonogram_sizetype start,
+                           nonogram_sizetype end)
 {
   nonogram_sizetype pos;
   int skip = false;
@@ -136,16 +138,16 @@ static void search_section(const struct nonogram_initargs *a,
   if (start > end) {
 #if 0
     printf("%6d-%2d >%*s%.*s\n", (int) end, (int) start,
-	   (int) end, "", (int) (start - end),
-	   "***********************************************************");
+           (int) end, "", (int) (start - end),
+           "***********************************************************");
 #endif
     for (pos = start; pos > end; pos--)
       check_cell(a, c, wp, pos - 1, &skip);
   } else {
 #if 0
     printf("%6d-%2d >%*s%.*s\n", (int) start, (int) end,
-	   (int) start, "", (int) (end - start),
-	   "***********************************************************");
+           (int) start, "", (int) (end - start),
+           "***********************************************************");
 #endif
     for (pos = start; pos < end; pos++)
       check_cell(a, c, wp, pos, &skip);
@@ -153,7 +155,7 @@ static void search_section(const struct nonogram_initargs *a,
 }
 
 static int compinit(void *ct, struct nonogram_ws *c,
-		    const struct nonogram_initargs *a)
+                    const struct nonogram_initargs *a)
 {
   size_t b;
   struct working w;
@@ -172,8 +174,8 @@ static int compinit(void *ct, struct nonogram_ws *c,
     for (pos = 0; pos < a->linelen; pos++) {
       /* Detect an inconsistency at this point. */
       if (INPUT(pos) == nonogram_SOLID) {
-	*a->fits = 0;
-	return false;
+        *a->fits = 0;
+        return false;
       }
       OUTPUT(pos) = nonogram_DOT;
     }
@@ -185,10 +187,10 @@ static int compinit(void *ct, struct nonogram_ws *c,
   /* Find the left-most limits of the blocks.  This gives our starting
      position. */
   if (!nonogram_push(a->line, a->linelen, a->linestep,
-		     a->rule, a->rulelen, a->rulestep,
-		     w.left, 1,
-		     w.pushspace,
-		     a->log->file, a->log->level, a->log->indent)) {
+                     a->rule, a->rulelen, a->rulestep,
+                     w.left, 1,
+                     w.pushspace,
+                     a->log->file, a->log->level, a->log->indent)) {
     assert(*a->fits == 0);
     return false;
   }
@@ -196,12 +198,12 @@ static int compinit(void *ct, struct nonogram_ws *c,
   /* Find the right-most limits of the blocks. */
   assert(a->rulelen > 0);
   if (!nonogram_push(a->line + (a->linelen - 1) * a->linestep, a->linelen,
-		     -a->linestep,
-		     a->rule + (a->rulelen - 1) * a->rulestep, a->rulelen,
-		     -a->rulestep,
-		     w.right + (a->rulelen - 1) , -1,
-		     w.pushspace,
-		     a->log->file, a->log->level, a->log->indent)) {
+                     -a->linestep,
+                     a->rule + (a->rulelen - 1) * a->rulestep, a->rulelen,
+                     -a->rulestep,
+                     w.right + (a->rulelen - 1) , -1,
+                     w.pushspace,
+                     a->log->file, a->log->level, a->log->indent)) {
     assert(*a->fits == 0);
     return false;
   }
@@ -312,27 +314,27 @@ static void log_result(const struct nonogram_initargs *a)
     for (i = 0; i < a->linelen; i++)
       switch (OUTPUT(i)) {
       case nonogram_BLANK:
-	putc(' ', a->log->file);
-	break;
+        putc(' ', a->log->file);
+        break;
       case nonogram_DOT:
-	putc('-', a->log->file);
-	break;
+        putc('-', a->log->file);
+        break;
       case nonogram_SOLID:
-	putc('#', a->log->file);
-	break;
+        putc('#', a->log->file);
+        break;
       case nonogram_BOTH:
-	putc('+', a->log->file);
-	break;
+        putc('+', a->log->file);
+        break;
       default:
-	putc('?', a->log->file);
-	break;
+        putc('?', a->log->file);
+        break;
       }
     fprintf(a->log->file, "<\n");
   }
 }
 
 static void merge(const nonogram_sizetype *pos,
-		  const struct nonogram_initargs *a)
+                  const struct nonogram_initargs *a)
 {
   nonogram_sizetype i;
   size_t b;

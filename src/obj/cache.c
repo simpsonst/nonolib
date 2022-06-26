@@ -1,3 +1,5 @@
+// -*- c-basic-offset: 2; indent-tabs-mode: nil -*-
+
 #include <assert.h>
 #include <stddef.h>
 
@@ -126,7 +128,7 @@ int nonocache_encodepuzzle(char **out, size_t *rem, const nonogram_puzzle *puz)
     for (size_t i = 0; i < len; i++) {
       assert(ptr[i]);
       if (encode_len(out, rem, ptr[i]) < 0)
-	return -1;
+        return -1;
     }
     if (encode_len(out, rem, 0) < 0)
       return -1;
@@ -138,7 +140,7 @@ int nonocache_encodepuzzle(char **out, size_t *rem, const nonogram_puzzle *puz)
     for (size_t i = 0; i < len; i++) {
       assert(ptr[i]);
       if (encode_len(out, rem, ptr[i]) < 0)
-	return -1;
+        return -1;
     }
     if (encode_len(out, rem, 0) < 0)
       return -1;
@@ -148,7 +150,7 @@ int nonocache_encodepuzzle(char **out, size_t *rem, const nonogram_puzzle *puz)
 }
 
 int nonocache_encodecells(char **out, size_t *rem,
-			  size_t wid, size_t hei, const nonogram_cell *grid)
+                          size_t wid, size_t hei, const nonogram_cell *grid)
 {
   if (!out) {
     *rem += (wid * hei + 5) / 6;
@@ -164,24 +166,24 @@ int nonocache_encodecells(char **out, size_t *rem,
       switch (grid[x + wid * y]) {
       case nonogram_BLANK:
       case nonogram_BOTH:
-	return -1;
+        return -1;
 
       case nonogram_SOLID:
-	v |= 1u;
-	break;
+        v |= 1u;
+        break;
       }
       got++;
 
       assert(got < 7);
       if (got == 6) {
-	assert(v < sizeof safe_chars - 1);
-	if (*rem == 0)
-	  return -1;
+        assert(v < sizeof safe_chars - 1);
+        if (*rem == 0)
+          return -1;
 
-	*(*out)++ = safe_chars[v];
-	--*rem;
-	v = 0;
-	got = 0;
+        *(*out)++ = safe_chars[v];
+        --*rem;
+        v = 0;
+        got = 0;
       }
     }
   }
@@ -211,11 +213,11 @@ int nonocache_decodepuzzle(const char **in, size_t *rem, nonogram_puzzle *puz)
 
     do {
       if (decode_len(in, rem, &len) < 0)
-	return -1;
+        return -1;
       if (len) {
-	int rc;
-	if ((rc = nonogram_appendcolblock(puz, x, len)) < 0)
-	  return rc;
+        int rc;
+        if ((rc = nonogram_appendcolblock(puz, x, len)) < 0)
+          return rc;
       }
     } while (len);
   }
@@ -225,11 +227,11 @@ int nonocache_decodepuzzle(const char **in, size_t *rem, nonogram_puzzle *puz)
 
     do {
       if (decode_len(in, rem, &len) < 0)
-	return -1;
+        return -1;
       if (len) {
-	int rc;
-	if ((rc = nonogram_appendrowblock(puz, y, len)) < 0)
-	  return rc;
+        int rc;
+        if ((rc = nonogram_appendrowblock(puz, y, len)) < 0)
+          return rc;
       }
     } while (len);
   }
@@ -238,7 +240,7 @@ int nonocache_decodepuzzle(const char **in, size_t *rem, nonogram_puzzle *puz)
 }
 
 int nonocache_decodecells(const char **in, size_t *rem,
-			  size_t wid, size_t hei, nonogram_cell *grid)
+                          size_t wid, size_t hei, nonogram_cell *grid)
 {
   size_t req = (wid * hei + 5) / 6;
   if (*rem < req)
@@ -256,11 +258,11 @@ int nonocache_decodecells(const char **in, size_t *rem,
       grid[x + y * wid] = (v & (1u << b)) ? nonogram_SOLID : nonogram_DOT;
       x++;
       if (x == wid) {
-	x = 0;
-	y++;
-	if (y == hei) {
-	  return 0;
-	}
+        x = 0;
+        y++;
+        if (y == hei) {
+          return 0;
+        }
       }
     }
   }

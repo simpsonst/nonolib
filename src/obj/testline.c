@@ -1,3 +1,5 @@
+// -*- c-basic-offset: 2; indent-tabs-mode: nil -*-
+
 /*
  *  Nonolib - Nonogram-solver library
  *  Copyright (C) 2001,2005-8,2012  Steven Simpson
@@ -67,7 +69,7 @@ static int printline(const nonogram_cell *p, size_t n)
 }
 
 static void makeline(nonogram_cell *line, size_t *linelenp,
-		     nonogram_sizetype *rule, size_t *rulelenp)
+                     nonogram_sizetype *rule, size_t *rulelenp)
 {
   size_t x, i;
   nonogram_cell cand = nonogram_SOLID;
@@ -94,7 +96,7 @@ static void makeline(nonogram_cell *line, size_t *linelenp,
 }
 
 static void breakline(const nonogram_cell *line, nonogram_cell *broken,
-		      size_t linelen)
+                      size_t linelen)
 {
   size_t x = 0, i = 0;
   nonogram_cell mask = unirand(0, 1) ? nonogram_BOTH : nonogram_BLANK;
@@ -142,17 +144,17 @@ static void setline(nonogram_cell *cp, size_t *lp, const char *txt)
 
 struct supply_suite {
   int (*get)(void *, size_t maxline, size_t maxrule,
-	     nonogram_cell *complete, nonogram_cell *broken, size_t *linelen,
-	     nonogram_sizetype *rule, size_t *rulelen);
+             nonogram_cell *complete, nonogram_cell *broken, size_t *linelen,
+             nonogram_sizetype *rule, size_t *rulelen);
 };
 
 struct interest_suite {
   int (*interest)(void *, size_t linelen, const nonogram_cell *result1,
-		  const nonogram_cell *result2);
+                  const nonogram_cell *result2);
 };
 
 static void argsetrule(nonogram_sizetype *rp, size_t *lp,
-		       int argc, const char *const *argv)
+                       int argc, const char *const *argv)
 {
   int i;
   *lp = argc;
@@ -177,14 +179,14 @@ union workspace {
 };
 
 int solveline(const struct nonogram_linesuite *fs, void *fw,
-	      const nonogram_cell *line, size_t linelen,
-	      const nonogram_sizetype *rule, size_t rulelen,
-	      nonogram_cell *result,
-	      ptrdiff_t *difw,
-	      nonogram_sizetype *pos,
-	      nonogram_cell *cell,
-	      union workspace *data,
-	      struct nonogram_log *logp)
+              const nonogram_cell *line, size_t linelen,
+              const nonogram_sizetype *rule, size_t rulelen,
+              nonogram_cell *result,
+              ptrdiff_t *difw,
+              nonogram_sizetype *pos,
+              nonogram_cell *cell,
+              union workspace *data,
+              struct nonogram_log *logp)
 {
   static struct nonogram_req zero;
   struct nonogram_lim lim;
@@ -203,14 +205,14 @@ int solveline(const struct nonogram_linesuite *fs, void *fw,
       req.nonogram_size > 2 * MAX_RULE ||
       req.cell > MAX_LINE * 2) {
     fprintf(stderr, "Memory requirements!\n"
-	    "%lu bytes\n"
-	    "%lu ptrdiff_t\n"
-	    "%lu size_t\n"
-	    "%lu nonogram_sizetype\n", 
-	    (unsigned long) req.byte, 
-	    (unsigned long) req.ptrdiff, 
-	    (unsigned long) req.size, 
-	    (unsigned long) req.nonogram_size);
+            "%lu bytes\n"
+            "%lu ptrdiff_t\n"
+            "%lu size_t\n"
+            "%lu nonogram_sizetype\n", 
+            (unsigned long) req.byte, 
+            (unsigned long) req.ptrdiff, 
+            (unsigned long) req.size, 
+            (unsigned long) req.nonogram_size);
     return -1;
   }
 
@@ -239,12 +241,12 @@ int solveline(const struct nonogram_linesuite *fs, void *fw,
 }
 
 static void compare_solvers(const nonogram_cell line[MAX_LINE],
-			    const nonogram_cell broken[MAX_LINE],
-			    size_t linelen,
-			    const nonogram_sizetype rule[MAX_RULE],
-			    size_t rulelen,
-			    struct nonogram_log *log,
-			    struct nonogram_log *nolog)
+                            const nonogram_cell broken[MAX_LINE],
+                            size_t linelen,
+                            const nonogram_sizetype rule[MAX_RULE],
+                            size_t rulelen,
+                            struct nonogram_log *log,
+                            struct nonogram_log *nolog)
 {
   int fast_fits, complete_fits, oddones_fits;
 
@@ -256,26 +258,26 @@ static void compare_solvers(const nonogram_cell line[MAX_LINE],
   union workspace wksp;
 
   complete_fits = solveline(&nonogram_completesuite, NULL,
-			    broken, linelen, rule, rulelen,
-			    complete, difw, pos, cellspace,
-			    &wksp, nolog);
+                            broken, linelen, rule, rulelen,
+                            complete, difw, pos, cellspace,
+                            &wksp, nolog);
 
   fast_fits = solveline(&nonogram_fastsuite, NULL,
-			broken, linelen, rule, rulelen,
-			fast, difw, pos, cellspace,
-			&wksp, nolog);
+                        broken, linelen, rule, rulelen,
+                        fast, difw, pos, cellspace,
+                        &wksp, nolog);
 
   memcpy(oddones_input, fast, sizeof(nonogram_cell) * linelen);
   {
     size_t i;
     for (i = 0; i < linelen; i++)
       if (oddones_input[i] == nonogram_BOTH)
-	oddones_input[i] = nonogram_BLANK;
+        oddones_input[i] = nonogram_BLANK;
   }
   oddones_fits = solveline(&nonogram_oddonessuite, NULL,
-			   oddones_input, linelen, rule, rulelen,
-			   oddones, difw, pos, cellspace,
-			   &wksp, nolog);
+                           oddones_input, linelen, rule, rulelen,
+                           oddones, difw, pos, cellspace,
+                           &wksp, nolog);
 
   if (memcmp(complete, fast, sizeof(nonogram_cell) * linelen)) {
     size_t i;
@@ -293,44 +295,44 @@ static void compare_solvers(const nonogram_cell line[MAX_LINE],
     printline(complete, linelen);
     printf("<\n");
     complete_fits = solveline(&nonogram_completesuite, NULL,
-			      broken, linelen, rule, rulelen,
-			      complete, difw, pos, cellspace,
-			      &wksp, log);
+                              broken, linelen, rule, rulelen,
+                              complete, difw, pos, cellspace,
+                              &wksp, log);
     printf("Fast:     >");
     printline(fast, linelen);
     printf("<\n");
     fast_fits = solveline(&nonogram_fastsuite, NULL,
-			  broken, linelen, rule, rulelen,
-			  fast, difw, pos, cellspace,
-			  &wksp, log);
+                          broken, linelen, rule, rulelen,
+                          fast, difw, pos, cellspace,
+                          &wksp, log);
 
     printf("Odd ones: >");
     printline(oddones, linelen);
     printf("<%s\n",
-	   memcmp(complete, oddones,
-		  sizeof(nonogram_cell) * linelen) ?
-	   " wrong" : " correct");
+           memcmp(complete, oddones,
+                  sizeof(nonogram_cell) * linelen) ?
+           " wrong" : " correct");
     oddones_fits = solveline(&nonogram_oddonessuite, NULL,
-			     oddones_input, linelen, rule, rulelen,
-			     oddones, difw, pos, cellspace,
-			     &wksp, log);
+                             oddones_input, linelen, rule, rulelen,
+                             oddones, difw, pos, cellspace,
+                             &wksp, log);
 
     printf("Diff:     >");
     for (i = 0; i < linelen; i++) {
       if (complete[i] == fast[i]) {
-	putchar(' ');
-	continue;
+        putchar(' ');
+        continue;
       }
       switch (complete[i]) {
       case nonogram_DOT:
-	putchar('-');
-	break;
+        putchar('-');
+        break;
       case nonogram_SOLID:
-	putchar('#');
-	break;
+        putchar('#');
+        break;
       default:
-	putchar('?');
-	break;
+        putchar('?');
+        break;
       }
     }
     printf("<\n");
@@ -414,13 +416,13 @@ int main(int argc, const char *const *argv)
     if (solvers[i].ops->prep) {
       solvers[i].ops->prep(solvers[i].conf, &lim, &tmp);
       if (tmp.byte > req.byte)
-	req.byte = tmp.byte;
+        req.byte = tmp.byte;
       if (tmp.ptrdiff > req.ptrdiff)
-	req.ptrdiff = tmp.ptrdiff;
+        req.ptrdiff = tmp.ptrdiff;
       if (tmp.nonogram_size > req.nonogram_size)
-	req.nonogram_size = tmp.nonogram_size;
+        req.nonogram_size = tmp.nonogram_size;
       if (tmp.cell > req.cell)
-	req.cell = tmp.cell;
+        req.cell = tmp.cell;
     }
   }
 
@@ -428,25 +430,25 @@ int main(int argc, const char *const *argv)
   ws.byte = malloc(req.byte);
   if (req.byte && !ws.byte) {
     fprintf(stderr, "Unable to allocate workspace: byte %zu\n",
-	    req.byte);
+            req.byte);
     return EXIT_FAILURE;
   }
   ws.ptrdiff = malloc(req.ptrdiff * sizeof *ws.ptrdiff);
   if (req.ptrdiff && !ws.ptrdiff) {
     fprintf(stderr, "Unable to allocate workspace: ptrdiff %zu\n",
-	    req.ptrdiff);
+            req.ptrdiff);
     return EXIT_FAILURE;
   }
   ws.nonogram_size = malloc(req.nonogram_size * sizeof *ws.nonogram_size);
   if (req.nonogram_size && !ws.nonogram_size) {
     fprintf(stderr, "Unable to allocate workspace: nonogram_size %zu\n",
-	    req.nonogram_size);
+            req.nonogram_size);
     return EXIT_FAILURE;
   }
   ws.cell = malloc(req.cell * sizeof *ws.cell);
   if (req.cell && !ws.cell) {
     fprintf(stderr, "Unable to allocate workspace: cell %zu\n",
-	    req.cell);
+            req.cell);
     return EXIT_FAILURE;
   }
 
@@ -456,8 +458,8 @@ int main(int argc, const char *const *argv)
   size_t rulelen, linelen;
 
   while (supply->get(supply_conf, MAX_LINE, MAX_RULE,
-		     line, broken, &linelen,
-		     rule, &rulelen)) {
+                     line, broken, &linelen,
+                     rule, &rulelen)) {
     //printf("New puzzle!\n");
 
     // results for each solver
@@ -486,7 +488,7 @@ int main(int argc, const char *const *argv)
       GETTIME(&start);
       bool more = solvers[i].ops->init(solvers[i].conf, &ws, &args);
       while (more)
-	more = solvers[i].ops->step(solvers[i].conf, ws.byte);
+        more = solvers[i].ops->step(solvers[i].conf, ws.byte);
       GETTIME(&end);
       delay[i] = DIFFTIME(&end, &start);
     }
@@ -496,8 +498,8 @@ int main(int argc, const char *const *argv)
     bool ignore = true;
     for (size_t i = 0; ignore && i + 1 < SOLVERS; i++)
       for (size_t j = i + 1; ignore && j < SOLVERS; j++)
-	ignore = !interest->interest(interest_conf, linelen,
-				     solutions[i], solutions[j]);
+        ignore = !interest->interest(interest_conf, linelen,
+                                     solutions[i], solutions[j]);
 
     if (ignore)
       continue;
@@ -520,9 +522,9 @@ int main(int argc, const char *const *argv)
       printline(solutions[i], linelen);
       printf("< (%3d) ", fits[i]);
       if (delay[i] >= 0.1)
-	printf("%5.3f s", delay[i]);
+        printf("%5.3f s", delay[i]);
       else
-	printf("%5.3fms", delay[1] * 1000.0);
+        printf("%5.3fms", delay[1] * 1000.0);
       printf("\n");
     }
   }
@@ -541,9 +543,9 @@ int main(int argc, const char *const *argv)
 
 
 static int random_get(void *vp, size_t maxline, size_t maxrule,
-		      nonogram_cell *complete, nonogram_cell *broken,
-		      size_t *linelen,
-		      nonogram_sizetype *rule, size_t *rulelen)
+                      nonogram_cell *complete, nonogram_cell *broken,
+                      size_t *linelen,
+                      nonogram_sizetype *rule, size_t *rulelen)
 {
   int *rem = vp;
 
@@ -566,8 +568,8 @@ static const struct supply_suite random_supply = {
 };
 
 static int true_interest(void *vp, size_t linelen,
-			 const nonogram_cell *result1,
-			 const nonogram_cell *result2)
+                         const nonogram_cell *result1,
+                         const nonogram_cell *result2)
 {
   return true;
 }
@@ -577,8 +579,8 @@ static const struct interest_suite always_interested = {
 };
 
 static int diff_interest(void *vp, size_t linelen,
-			 const nonogram_cell *result1,
-			 const nonogram_cell *result2)
+                         const nonogram_cell *result1,
+                         const nonogram_cell *result2)
 {
   for (size_t i = 0; i < linelen; i++)
     if (result1[i] != result2[i])
@@ -591,9 +593,9 @@ static const struct interest_suite diff_is_interesting = {
 };
 
 static int file_get(void *vp, size_t maxline, size_t maxrule,
-		    nonogram_cell *complete, nonogram_cell *broken,
-		    size_t *linelen,
-		    nonogram_sizetype *rule, size_t *rulelen)
+                    nonogram_cell *complete, nonogram_cell *broken,
+                    size_t *linelen,
+                    nonogram_sizetype *rule, size_t *rulelen)
 {
   struct file_supply *c = vp;
 
@@ -605,7 +607,7 @@ static int file_get(void *vp, size_t maxline, size_t maxrule,
 
   char line[100];
   while (fgets(line, sizeof line, c->fp) &&
-	 sscanf(line, "Length: %zu", linelen) < 1)
+         sscanf(line, "Length: %zu", linelen) < 1)
     ;
 
   if (feof(c->fp))

@@ -1,3 +1,5 @@
+// -*- c-basic-offset: 2; indent-tabs-mode: nil -*-
+
 /*
  *  Nonolib - Nonogram-solver library
  *  Copyright (C) 2001,2005-8,2012  Steven Simpson
@@ -201,10 +203,10 @@ struct hdr {
 /* Return true if there are no cells remaining from which information
    could be obtained. */
 static int record_section(const struct nonogram_initargs *a,
-			  nonogram_sizetype from,
-			  nonogram_sizetype to,
-			  nonogram_cell v,
-			  size_t *remunk)
+                          nonogram_sizetype from,
+                          nonogram_sizetype to,
+                          nonogram_cell v,
+                          size_t *remunk)
 {
   ++*a->fits;
   for (nonogram_sizetype i = from; i < to; i++) {
@@ -218,7 +220,7 @@ static int record_section(const struct nonogram_initargs *a,
     assert(*cp < 4);
     if (*cp == nonogram_BOTH)
       if (--*remunk == 0)
-	return true;
+        return true;
   }
 
   printf("Accumulate>");
@@ -251,16 +253,16 @@ static int record_section(const struct nonogram_initargs *a,
 }
 
 static int merge1(const struct nonogram_initargs *a,
-		  nonogram_sizetype *pos,
-		  nonogram_sizetype *oldpos,
-		  nonogram_sizetype *solid,
-		  nonogram_sizetype *oldsolid,
-		  size_t *remunk,
-		  size_t b)
+                  nonogram_sizetype *pos,
+                  nonogram_sizetype *oldpos,
+                  nonogram_sizetype *solid,
+                  nonogram_sizetype *oldsolid,
+                  size_t *remunk,
+                  size_t b)
 {
   if (record_section(a, oldpos[b], pos[b], nonogram_DOT, remunk) ||
       record_section(a, oldpos[b] + RULE(b), pos[b] + RULE(b),
-		     nonogram_SOLID, remunk))
+                     nonogram_SOLID, remunk))
     return true;
 
   oldpos[b] = pos[b];
@@ -269,12 +271,12 @@ static int merge1(const struct nonogram_initargs *a,
 }
 
 static int record_sections(const struct nonogram_initargs *a,
-			   size_t base, size_t max,
-			   nonogram_sizetype *pos,
-			   nonogram_sizetype *oldpos,
-			   nonogram_sizetype *solid,
-			   nonogram_sizetype *oldsolid,
-			   size_t *remunk)
+                           size_t base, size_t max,
+                           nonogram_sizetype *pos,
+                           nonogram_sizetype *oldpos,
+                           nonogram_sizetype *solid,
+                           nonogram_sizetype *oldsolid,
+                           size_t *remunk)
 {
   // Where does the section of dots before the first block start?
   nonogram_sizetype left = base > 0 ? pos[base - 1] + RULE(base - 1) : 0;
@@ -297,8 +299,8 @@ static int record_sections(const struct nonogram_initargs *a,
 
   // Mark the trailing dots.
   return record_section(a, left,
-			max == RULES ? LEN : pos[max],
-			nonogram_DOT, remunk);
+                        max == RULES ? LEN : pos[max],
+                        nonogram_DOT, remunk);
 }
 
 void prep(void *vp, const struct nonogram_lim *lim, struct nonogram_req *req)
@@ -321,9 +323,9 @@ int init(void *vp, struct nonogram_ws *ws, const struct nonogram_initargs *a)
   if (RULES == 0) {
     for (nonogram_sizetype i = 0; i < LEN; i++) {
       if (CELL(i) == nonogram_DOT)
-	continue;
+        continue;
       if (CELL(i) != nonogram_BLANK)
-	return false;
+        return false;
       RESULT(i) = nonogram_DOT;
     }
     *a->fits = 1;
@@ -397,9 +399,9 @@ int init(void *vp, struct nonogram_ws *ws, const struct nonogram_initargs *a)
 // Look for a gap of length 'req', starting at '*at', going no further
 // than 'lim'.  Return true, and write the position in '*at'.
 static int can_jump(const struct nonogram_initargs *a,
-		    nonogram_sizetype req,
-		    nonogram_sizetype lim,
-		    nonogram_sizetype *at)
+                    nonogram_sizetype req,
+                    nonogram_sizetype lim,
+                    nonogram_sizetype *at)
 {
   nonogram_sizetype got = 0;
   for (nonogram_sizetype i = *at; i < lim && got < req; i++) {
@@ -452,7 +454,7 @@ static int step(void *vp, void *ws)
 
   if (B < RULES)
     printf("Block %zu of %" nonogram_PRIuSIZE " at %" nonogram_PRIuSIZE "\n",
-	   B, RULE(B), POS(B));
+           B, RULE(B), POS(B));
 
   printf("X:%8zu>", LEN);
   for (nonogram_sizetype i = 0; i < LEN; i++) {
@@ -482,17 +484,17 @@ static int step(void *vp, void *ws)
     nonogram_sizetype i = 0;
     for (size_t b = 0; b < RULES; b++) {
       if (b == 0 || POS(b) > POS(b - 1) + RULE(b - 1))
-	printf("%*s", (int) (POS(b) - i), "");
+        printf("%*s", (int) (POS(b) - i), "");
       else
-	printf("\n%*s", (int) (POS(b) + 11), "");
+        printf("\n%*s", (int) (POS(b) + 11), "");
       for (i = POS(b); i < POS(b) + RULE(b); i++)
-	putchar(((ctxt->mode == SLIDING || b < B) && POS(b) + SOLID(b) == i) ?
-		(b == B ? '!' : 'X') :
-		(b == B ? '#' : '+'));
+        putchar(((ctxt->mode == SLIDING || b < B) && POS(b) + SOLID(b) == i) ?
+                (b == B ? '!' : 'X') :
+                (b == B ? '#' : '+'));
     }
     printf("%*s", (int) (LEN - i), "");
     printf("< [%zu-%zu) m%zu\n",
-	   BASE, MAX, MININV);
+           BASE, MAX, MININV);
   }
 
   switch (ctxt->mode) {
@@ -536,32 +538,32 @@ static int step_invalid(void *vp, void *ws)
     // the line.
     for (nonogram_sizetype i = POS(B) + RULE(B); i < ctxt->maxpos; i++)
       if (CELL(i) == nonogram_SOLID) {
-	// A trailing solid has been found.
-	printf("Trailing solid at %" nonogram_PRIuSIZE "\n", i);
+        // A trailing solid has been found.
+        printf("Trailing solid at %" nonogram_PRIuSIZE "\n", i);
 
-	// Can we jump to it without uncovering a solid?
-	if (POS(B) + SOLID(B) + RULE(B) > i) {
-	  // Yes, so do so, and revalidate.
-	  POS(B) = i + 1 - RULE(B);
-	  ctxt->mode = INVALID;
-	  return true;
-	}
-	// No, we'd uncover a solid.
+        // Can we jump to it without uncovering a solid?
+        if (POS(B) + SOLID(B) + RULE(B) > i) {
+          // Yes, so do so, and revalidate.
+          POS(B) = i + 1 - RULE(B);
+          ctxt->mode = INVALID;
+          return true;
+        }
+        // No, we'd uncover a solid.
 
-	// Try to bring up an earlier block.
-	assert(SOLID(B) < RULE(B));
-	ctxt->target = B;
-	ctxt->mode = DRAWING;
-	return true;
+        // Try to bring up an earlier block.
+        assert(SOLID(B) < RULE(B));
+        ctxt->target = B;
+        ctxt->mode = DRAWING;
+        return true;
       }
     // All blocks in position, and no trailing solids found - all valid.
     printf("New valid state found\n");
 
     // Record the current state in the results.
     if (record_sections(a, MININV, MAX,
-			&POS(0), &OLDPOS(0),
-			&SOLID(0), &OLDSOLID(0),
-			&ctxt->remunk))
+                        &POS(0), &OLDPOS(0),
+                        &SOLID(0), &OLDSOLID(0),
+                        &ctxt->remunk))
       return false;
     MININV = MAX;
 
@@ -619,12 +621,12 @@ static int step_invalid(void *vp, void *ws)
   // Keep moving the block one cell at a time, in order to cover any
   // adjacent solid on its right.
   while (POS(B) + RULE(B) < ctxt->maxpos &&
-	 CELL(POS(B) + RULE(B)) == nonogram_SOLID) {
+         CELL(POS(B) + RULE(B)) == nonogram_SOLID) {
     if (SOLID(B) == 0) {
       // We can't span both the solid we cover and the adjacent solid
       // at the end.
       printf("Can't overlap solids at %" nonogram_PRIuSIZE
-	     " and %" nonogram_PRIuSIZE "\n", POS(B), POS(B) + RULE(B));
+             " and %" nonogram_PRIuSIZE "\n", POS(B), POS(B) + RULE(B));
 
       // Bring up another block.
       ctxt->target = B;
@@ -670,11 +672,11 @@ static int step_drawing(void *vp, void *ws)
 
       assert(B >= MININV);
       if (B == MININV) {
-	printf("Can't draw any more without restoring\n");
-	assert(MAX > 0);
-	B = MAX - 1;
-	ctxt->mode = RESTORING;
-	return true;
+        printf("Can't draw any more without restoring\n");
+        assert(MAX > 0);
+        B = MAX - 1;
+        ctxt->mode = RESTORING;
+        return true;
       }
     }
 
@@ -682,8 +684,8 @@ static int step_drawing(void *vp, void *ws)
       ctxt->target = B;
     B--;
   } while (SOLID(B) < RULE(B) &&
-	   POS(ctxt->target) + SOLID(ctxt->target) - RULE(B) + 1 >
-	   POS(B) + SOLID(B));
+           POS(ctxt->target) + SOLID(ctxt->target) - RULE(B) + 1 >
+           POS(B) + SOLID(B));
   printf("New target is %zu\n", ctxt->target);
 
   // We must record which left-most block we are about to disturb from
@@ -729,8 +731,8 @@ static int step_sliding(void *vp, void *ws)
   // Slide right until we reach the next block, the end of the line,
   // or a dot.  Also stop if we are about to uncover a solid.
   while (POS(B) + RULE(B) < lim &&
-	 CELL(POS(B) + RULE(B)) != nonogram_DOT &&
-	 SOLID(B) != 0) {
+         CELL(POS(B) + RULE(B)) != nonogram_DOT &&
+         SOLID(B) != 0) {
     // We shouldn't be about to cover a solid by moving.  Otherwise,
     // how could we be in a valid state?
     assert(CELL(POS(B) + RULE(B)) != nonogram_SOLID);
@@ -745,7 +747,7 @@ static int step_sliding(void *vp, void *ws)
       SOLID(B)--;
     } else {
       assert(false); // This should never happen, due to the loop
-		     // condition.
+                     // condition.
       SOLID(B) = LEN + 1;
     }
     POS(B)++;
@@ -758,9 +760,9 @@ static int step_sliding(void *vp, void *ws)
     // all those possibilities, and try later.  However, if this rules
     // out further information from this line, stop.
     printf("Merging block %zu from %" nonogram_PRIuSIZE
-	   " to %" nonogram_PRIuSIZE "\n", B, OLDPOS(B), POS(B));
+           " to %" nonogram_PRIuSIZE "\n", B, OLDPOS(B), POS(B));
     if (merge1(a, &POS(0), &OLDPOS(0),
-	       &SOLID(0), &OLDSOLID(0), &ctxt->remunk, B))
+               &SOLID(0), &OLDSOLID(0), &ctxt->remunk, B))
       return false;
   }
 
@@ -789,29 +791,29 @@ static int step_sliding(void *vp, void *ws)
       printf("Jumpable\n");
 
       if (SOLID(B) >= RULE(B)) {
-	// And we're not covering a solid, so we can do it now, and
-	// keep sliding.
+        // And we're not covering a solid, so we can do it now, and
+        // keep sliding.
 
-	// Jump to the space.
-	POS(B) = at;
+        // Jump to the space.
+        POS(B) = at;
 
-	// Record the previous section as dots.
-	if (record_section(a, OLDPOS(B), OLDPOS(B) + RULE(B),
-			   nonogram_DOT, &ctxt->remunk))
-	  return false;
+        // Record the previous section as dots.
+        if (record_section(a, OLDPOS(B), OLDPOS(B) + RULE(B),
+                           nonogram_DOT, &ctxt->remunk))
+          return false;
 
-	// Record the new section as solids.
-	if (record_section(a, POS(B), POS(B) + RULE(B),
-			   nonogram_SOLID, &ctxt->remunk))
-	  return false;
+        // Record the new section as solids.
+        if (record_section(a, POS(B), POS(B) + RULE(B),
+                           nonogram_SOLID, &ctxt->remunk))
+          return false;
 
-	// Note that this move has been recorded.
-	OLDPOS(B) = POS(B);
-	OLDSOLID(B) = SOLID(B) = LEN + 1;
+        // Note that this move has been recorded.
+        OLDPOS(B) = POS(B);
+        OLDSOLID(B) = SOLID(B) = LEN + 1;
 
-	// Keep sliding this block.
-	ctxt->mode = SLIDING;
-	return true;
+        // Keep sliding this block.
+        ctxt->mode = SLIDING;
+        return true;
       }
       // There's space to jump the dot, but we'd uncover a solid if we
       // did that.
@@ -821,14 +823,14 @@ static int step_sliding(void *vp, void *ws)
       printf("No space past dot\n");
 
       if (B + 1 == MAX) {
-	// This block is at its right-most position.
-	printf("Right block is right-most for dot\n");
-	if (MAX == BASE) {
-	  printf("Fixing final block\n");
-	  return false;
-	}
-	MAX--;
-	ctxt->maxpos = POS(B) - 1;
+        // This block is at its right-most position.
+        printf("Right block is right-most for dot\n");
+        if (MAX == BASE) {
+          printf("Fixing final block\n");
+          return false;
+        }
+        MAX--;
+        ctxt->maxpos = POS(B) - 1;
       }
     }
     // Finished handling an obstructive dot.
@@ -890,8 +892,8 @@ static int step_restoring(void *vp, void *ws)
   for (size_t j = MININV; j <= B; j++) {
     size_t i = B + MININV - j;
     printf("Restoring %zu from %" nonogram_PRIuSIZE
-	   " to %" nonogram_PRIuSIZE "\n", i,
-	   POS(i), OLDPOS(i));
+           " to %" nonogram_PRIuSIZE "\n", i,
+           POS(i), OLDPOS(i));
     POS(i) = OLDPOS(i);
     SOLID(i) = OLDSOLID(i);
     if (SOLID(i) < RULE(i))

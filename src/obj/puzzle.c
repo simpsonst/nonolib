@@ -1,3 +1,5 @@
+// -*- c-basic-offset: 2; indent-tabs-mode: nil -*-
+
 /*
  *  Nonolib - Nonogram-solver library
  *  Copyright (C) 2001,2005-8,2012  Steven Simpson
@@ -42,8 +44,8 @@ struct linectxt {
 };
 
 static int scanline(nonogram_puzzle *p, struct linectxt *ctxt,
-		    const char *line, const char *end,
-		    nonogram_errorproc *ef, void *eh);
+                    const char *line, const char *end,
+                    nonogram_errorproc *ef, void *eh);
 
 static int fpfw(void *x, const char *fmt, ...)
 {
@@ -64,7 +66,7 @@ int nonogram_fscanpuzzle(nonogram_puzzle *p, FILE *fp)
 }
 
 int nonogram_fscanpuzzle_ef(nonogram_puzzle *p, FILE *fp,
-			    nonogram_errorproc *ef, void *eh)
+                            nonogram_errorproc *ef, void *eh)
 {
   struct linectxt ctxt;
   static char line[400];
@@ -82,9 +84,9 @@ int nonogram_fscanpuzzle_ef(nonogram_puzzle *p, FILE *fp,
   ctxt.lineno = 1;
 
   while (((ctxt.noheight || ctxt.rowno < p->height) ||
-	  (ctxt.nowidth || ctxt.colno < p->width)) &&
-	 fgets(line, sizeof line, fp) &&
-	 (rc = scanline(p, &ctxt, line, line + strlen(line), ef, eh)))
+          (ctxt.nowidth || ctxt.colno < p->width)) &&
+         fgets(line, sizeof line, fp) &&
+         (rc = scanline(p, &ctxt, line, line + strlen(line), ef, eh)))
     ctxt.lineno++;
 
   if (ef) {
@@ -92,13 +94,13 @@ int nonogram_fscanpuzzle_ef(nonogram_puzzle *p, FILE *fp,
       (*ef)(eh, "No height specified\n");
     else if (ctxt.rowno < p->height)
       (*ef)(eh, "Insufficient row data (%d still expected)\n",
-	    (int) (p->height - ctxt.rowno));
+            (int) (p->height - ctxt.rowno));
 
     if (ctxt.nowidth)
       (*ef)(eh, "No width specified\n");
     else if (ctxt.colno < p->width)
       (*ef)(eh, "Insufficient column data (%d still expected)\n",
-	    (int) (p->width - ctxt.colno));
+            (int) (p->width - ctxt.colno));
   }
 
   if (rc == 0 || ctxt.noheight || ctxt.rowno < p->height ||
@@ -111,7 +113,7 @@ int nonogram_fscanpuzzle_ef(nonogram_puzzle *p, FILE *fp,
 }
 
 static const char *mygetline(const char **s, const char *e,
-			     const char **st, const char **en)
+                             const char **st, const char **en)
 {
   if (*s >= e || !**s)
     return NULL;
@@ -126,14 +128,14 @@ static const char *mygetline(const char **s, const char *e,
 }
 
 int nonogram_spscanpuzzle(nonogram_puzzle *p,
-			  const char **s, const char *e)
+                          const char **s, const char *e)
 {
   return nonogram_spscanpuzzle_ef(p, s, e, &fpfw, stderr);
 }
 
 int nonogram_spscanpuzzle_ef(nonogram_puzzle *p,
-			     const char **s, const char *e,
-			     nonogram_errorproc *ef, void *eh)
+                             const char **s, const char *e,
+                             nonogram_errorproc *ef, void *eh)
 {
   struct linectxt ctxt;
   const char *line, *end;
@@ -151,9 +153,9 @@ int nonogram_spscanpuzzle_ef(nonogram_puzzle *p,
   ctxt.lineno = 1;
 
   while (((ctxt.noheight || ctxt.rowno < p->height) ||
-	  (ctxt.nowidth || ctxt.colno < p->width)) &&
-	 mygetline(s, e, &line, &end) &&
-	 (rc = scanline(p, &ctxt, line, end, ef, eh)))
+          (ctxt.nowidth || ctxt.colno < p->width)) &&
+         mygetline(s, e, &line, &end) &&
+         (rc = scanline(p, &ctxt, line, end, ef, eh)))
     ctxt.lineno++;
 
   if (ef) {
@@ -161,13 +163,13 @@ int nonogram_spscanpuzzle_ef(nonogram_puzzle *p,
       (*ef)(eh, "No height specified\n");
     else if (ctxt.rowno < p->height)
       (*ef)(eh, "Insufficient row data (%d still expected)\n",
-	    (int) (p->height - ctxt.rowno));
+            (int) (p->height - ctxt.rowno));
 
     if (ctxt.nowidth)
       (*ef)(eh, "No width specified\n");
     else if (ctxt.colno < p->width)
       (*ef)(eh, "Insufficient column data (%d still expected)\n",
-	    (int) (p->width - ctxt.colno));
+            (int) (p->width - ctxt.colno));
   }
 
   if (rc == 0 || ctxt.noheight || ctxt.rowno < p->height ||
@@ -215,7 +217,7 @@ static struct nonogram_tn *copynotes(const struct nonogram_tn *n)
 }
 
 int nonogram_copypuzzle(nonogram_puzzle *to,
-			const nonogram_puzzle *from)
+                        const nonogram_puzzle *from)
 {
   size_t line;
 
@@ -401,8 +403,8 @@ const char *nonogram_getnote(nonogram_puzzle *p, const char *n)
 }
 
 static int nonogram_parseline(const nonogram_cell *st,
-			      size_t len, ptrdiff_t step,
-			      nonogram_sizetype *v, ptrdiff_t vs)
+                              size_t len, ptrdiff_t step,
+                              nonogram_sizetype *v, ptrdiff_t vs)
 {
   size_t i;
   int count = 0;
@@ -429,18 +431,18 @@ static int nonogram_parseline(const nonogram_cell *st,
     switch (st[i * step]) {
     case nonogram_DOT:
       if (inblock) {
-	inblock = false;
-	count++;
+        inblock = false;
+        count++;
       }
       break;
     case nonogram_SOLID:
       if (!inblock) {
-	inblock = true;
-	if (v)
-	  v[count * vs] = 0;
+        inblock = true;
+        if (v)
+          v[count * vs] = 0;
       }
       if (v)
-	v[count * vs]++;
+        v[count * vs]++;
       break;
     default:
       return -1;
@@ -449,7 +451,7 @@ static int nonogram_parseline(const nonogram_cell *st,
 }
 
 int nonogram_makepuzzle(nonogram_puzzle *p, const nonogram_cell *g,
-			size_t w, size_t h)
+                        size_t w, size_t h)
 {
   size_t n;
 
@@ -563,7 +565,7 @@ int nonogram_fprintpuzzle(const nonogram_puzzle *p, FILE *fp)
 
   count += fprintf(fp, "maxrule %d\n", nonogram_getmaxrule(p));
   count += fprintf(fp, "width %lu\nheight %lu\n",
-		   (unsigned long) p->width, (unsigned long) p->height);
+                   (unsigned long) p->width, (unsigned long) p->height);
   if (p->notes) count += printnotes(p->notes, fp);
 #if false
   if (p->title) {
@@ -571,13 +573,13 @@ int nonogram_fprintpuzzle(const nonogram_puzzle *p, FILE *fp)
     count += fprintf(fp, "title \"");
     for (cp = p->title; *cp; cp++)
       if (*cp == '\"')
-	count += fprintf(fp, "\\\"");
+        count += fprintf(fp, "\\\"");
       else if (*cp == '\\')
-	count += fprintf(fp, "\\\\");
+        count += fprintf(fp, "\\\\");
       else if (*cp < 32 || *cp > 126)
-	count += fprintf(fp, "?");
+        count += fprintf(fp, "?");
       else
-	count++, fputc(*cp, fp);
+        count++, fputc(*cp, fp);
     count += fprintf(fp, "\"\n");
   }
 #endif
@@ -597,8 +599,8 @@ int nonogram_fprintpuzzle(const nonogram_puzzle *p, FILE *fp)
 }
 
 void nonogram_judgeline(size_t linelen, const nonogram_sizetype *rule,
-			size_t rulelen, ptrdiff_t rulestep,
-			int *needed, int *known)
+                        size_t rulelen, ptrdiff_t rulestep,
+                        int *needed, int *known)
 {
   size_t ruleno;
   int score;
@@ -626,11 +628,11 @@ float nonogram_judgepuzzle(const nonogram_puzzle *p)
 
   for (lineno = 0; lineno < p->width; lineno++)
     nonogram_judgeline(p->height, p->col[lineno].val, p->col[lineno].len,
-		       1, &col.needed, &col.known);
+                       1, &col.needed, &col.known);
 
   for (lineno = 0; lineno < p->height; lineno++)
     nonogram_judgeline(p->width, p->row[lineno].val, p->row[lineno].len,
-		       1, &row.needed, &row.known);
+                       1, &row.needed, &row.known);
 
   if (row.needed != col.needed)
     scale = FLT_MAX;
@@ -646,7 +648,7 @@ unsigned long const nonogram_maxrule = nonogram_MAXRULES;
 
 
 static int getword(const char *s, const char *e,
-		   const char **sp, const char **ep)
+                   const char **sp, const char **ep)
 {
   while (s < e && *s && isspace((int) *s))
     s++;
@@ -672,16 +674,16 @@ static char *gettitle(const char *s, const char *e)
   while (en < e && *en) {
     if (*en == '\"') {
       if (escape)
-	len += 1 + spacelast, spacelast = 0, escape = 0;
+        len += 1 + spacelast, spacelast = 0, escape = 0;
       else
-	quotes = !quotes;
+        quotes = !quotes;
     } else if (*en == '\\') {
       escape = !escape;
     } else if (isspace((int) *en)) {
       if (!escape && !quotes)
-	spacelast = 1;
+        spacelast = 1;
       else
-	len += 1 + spacelast, spacelast = 0;
+        len += 1 + spacelast, spacelast = 0;
       escape = 0;
     } else {
       len += 1 + spacelast, spacelast = escape = 0;
@@ -697,26 +699,26 @@ static char *gettitle(const char *s, const char *e)
   while (st < e && *st) {
     if (*st == '\"') {
       if (escape) {
-	if (spacelast)
-	  *(rp++) = ' ', spacelast = escape = 0;
-	*(rp++) = *(st++);
+        if (spacelast)
+          *(rp++) = ' ', spacelast = escape = 0;
+        *(rp++) = *(st++);
       } else
-	quotes = !quotes, st++;
+        quotes = !quotes, st++;
     } else if (*st == '\\') {
       st++;
       escape = !escape;
     } else if (isspace((int) *st)) {
       if (!escape && !quotes)
-	spacelast = 1, st++;
+        spacelast = 1, st++;
       else {
-	if (spacelast)
-	  *(rp++) = ' ', spacelast = 0;
-	*(rp++) = *(st++);
+        if (spacelast)
+          *(rp++) = ' ', spacelast = 0;
+        *(rp++) = *(st++);
       }
       escape = 0;
     } else {
       if (spacelast)
-	*(rp++) = ' ', spacelast = 0;
+        *(rp++) = ' ', spacelast = 0;
       *(rp++) = *(st++);
       escape = 0;
     }
@@ -762,7 +764,7 @@ static int getint(const char *s, const char **rem, const char *e, size_t *res)
 }
 
 static int loadrule(const char *line, const char *e,
-		    struct nonogram_rule *rule)
+                    struct nonogram_rule *rule)
 {
   const char *p = line;
   size_t i = 0;
@@ -792,8 +794,8 @@ static int loadrule(const char *line, const char *e,
 }
 
 static int scanline(nonogram_puzzle *p, struct linectxt *ctxt,
-		    const char *line, const char *end,
-		    nonogram_errorproc *ef, void *eh)
+                    const char *line, const char *end,
+                    nonogram_errorproc *ef, void *eh)
 {
   const char *cmd;
   const char *cmdend;
@@ -815,7 +817,7 @@ static int scanline(nonogram_puzzle *p, struct linectxt *ctxt,
     ctxt->nowidth = false;
     if (!getint(cmdend, NULL, end, &p->width) || p->width  < 1) {
       if (ef) (*ef)(eh, "%3d: %-.*s needs positive integer\n",
-		    ctxt->lineno, cmdend - cmd, cmd);
+                    ctxt->lineno, cmdend - cmd, cmd);
       return 0;
     }
     p->width_cap = p->width;
@@ -834,7 +836,7 @@ static int scanline(nonogram_puzzle *p, struct linectxt *ctxt,
     ctxt->noheight = false;
     if (!getint(cmdend, NULL, end, &p->height) || p->height < 1) {
       if (ef) (*ef)(eh, "%3d: %-.*s needs non-negative integer\n",
-		    ctxt->lineno, cmdend - cmd, cmd);
+                    ctxt->lineno, cmdend - cmd, cmd);
       return 0;
     }
     p->height_cap = p->height;
@@ -851,7 +853,7 @@ static int scanline(nonogram_puzzle *p, struct linectxt *ctxt,
       goto reading_height;
     if (ctxt->noheight) {
       if (ef) (*ef)(eh, "%3d: specify height before rows\n",
-		    (int) ctxt->lineno);
+                    (int) ctxt->lineno);
       return 0;
     }
     ctxt->onrows = true;
@@ -863,7 +865,7 @@ static int scanline(nonogram_puzzle *p, struct linectxt *ctxt,
       goto reading_width;
     if (ctxt->nowidth) {
       if (ef) (*ef)(eh, "%3d: specify width before columns\n",
-		    (int) ctxt->lineno);
+                    (int) ctxt->lineno);
       return 0;
     }
     ctxt->oncolumns = true;
@@ -871,14 +873,14 @@ static int scanline(nonogram_puzzle *p, struct linectxt *ctxt,
   } else if (matchword(cmd, cmdend, "maxrule")) {
     if (!ctxt->nomaxrule) {
       if (ef) (*ef)(eh, "%3d: maxrule already specified\n",
-		    (int) ctxt->lineno);
+                    (int) ctxt->lineno);
       return 0;
     }
     ctxt->nomaxrule = false;
     if (getint(cmdend, NULL, end, &ctxt->maxrule) && ctxt->maxrule < 1) {
       if (ef)
-	(*ef)(eh, "%3d: maxrule needs non-negative integer\n",
-	      (int) ctxt->lineno);
+        (*ef)(eh, "%3d: maxrule needs non-negative integer\n",
+              (int) ctxt->lineno);
       return 0;
     }
   } else if (isalpha((int) *cmd)) {
@@ -909,7 +911,7 @@ static int scanline(nonogram_puzzle *p, struct linectxt *ctxt,
 }
 
 int nonogram_comparepuzzles(const nonogram_puzzle *p1,
-			    const nonogram_puzzle *p2)
+                            const nonogram_puzzle *p2)
 {
   size_t i, j;
 
@@ -926,23 +928,23 @@ int nonogram_comparepuzzles(const nonogram_puzzle *p1,
       return p2->col[i].len - p1->col[i].len;
     else
       for (j = 0; j < p1->col[i].len; j++)
-	if (p1->col[i].val[j] != p2->col[i].val[j])
-	  return p2->col[i].val[j] - p1->col[i].val[j];
+        if (p1->col[i].val[j] != p2->col[i].val[j])
+          return p2->col[i].val[j] - p1->col[i].val[j];
 
   for (i = 0; i < p1->height; i++)
     if (p1->row[i].len != p2->row[i].len)
       return p2->row[i].len - p1->row[i].len;
     else
       for (j = 0; j < p1->row[i].len; j++)
-	if (p1->row[i].val[j] != p2->row[i].val[j])
-	  return p2->row[i].val[j] - p1->row[i].val[j];
+        if (p1->row[i].val[j] != p2->row[i].val[j])
+          return p2->row[i].val[j] - p1->row[i].val[j];
 
   return 0;
 }
 
 static int changedim(size_t *lenp, size_t *capp,
-		     struct nonogram_rule **linesp,
-		     size_t newlen)
+                     struct nonogram_rule **linesp,
+                     size_t newlen)
 {
   // If the length is already set to this value, do nothing and report
   // no error.
@@ -1035,7 +1037,7 @@ int nonogram_setcollen(nonogram_puzzle *p, size_t line, size_t len)
 }
 
 int nonogram_setrowblock(nonogram_puzzle *p, size_t line,
-			 size_t pos, nonogram_sizetype val)
+                         size_t pos, nonogram_sizetype val)
 {
   if (line >= p->height) return -2;
   if (pos >= p->row[line].len) return -3;
@@ -1045,7 +1047,7 @@ int nonogram_setrowblock(nonogram_puzzle *p, size_t line,
 }
 
 int nonogram_setcolblock(nonogram_puzzle *p, size_t line, size_t pos,
-			 nonogram_sizetype val)
+                         nonogram_sizetype val)
 {
   if (line >= p->width) return -2;
   if (pos >= p->col[line].len) return -3;
@@ -1055,7 +1057,7 @@ int nonogram_setcolblock(nonogram_puzzle *p, size_t line, size_t pos,
 }
 
 int nonogram_appendrowblock(nonogram_puzzle *p,
-			    size_t line, nonogram_sizetype val)
+                            size_t line, nonogram_sizetype val)
 {
   int rc;
   size_t pos = p->row[line].len;
@@ -1066,7 +1068,7 @@ int nonogram_appendrowblock(nonogram_puzzle *p,
 }
 
 int nonogram_appendcolblock(nonogram_puzzle *p,
-			    size_t line, nonogram_sizetype val)
+                            size_t line, nonogram_sizetype val)
 {
   int rc;
   size_t pos = p->col[line].len;

@@ -1,3 +1,5 @@
+// -*- c-basic-offset: 2; indent-tabs-mode: nil -*-
+
 /*
  *  Nonolib - Nonogram-solver library
  *  Copyright (C) 2001,2005-8,2012  Steven Simpson
@@ -34,7 +36,7 @@
 #endif
 
 static void makescore(nonogram_lineattr *attr,
-		      const struct nonogram_rule *rule, int len);
+                      const struct nonogram_rule *rule, int len);
 
 static void setupstep(nonogram_solver *);
 static void step(nonogram_solver *);
@@ -113,8 +115,8 @@ int nonogram_unload(nonogram_solver *c)
     case nonogram_DONE:
     case nonogram_WORKING:
       if (c->linesolver[c->level].suite->term)
-	(*c->linesolver[c->level].suite->term)
-	  (c->linesolver[c->level].context);
+        (*c->linesolver[c->level].suite->term)
+          (c->linesolver[c->level].context);
       break;
     }
 
@@ -132,7 +134,7 @@ int nonogram_unload(nonogram_solver *c)
 static void gathersolvers(nonogram_solver *c);
 
 int nonogram_load(nonogram_solver *c, const nonogram_puzzle *puzzle,
-		  nonogram_cell *grid, int remcells)
+                  nonogram_cell *grid, int remcells)
 {
   /* local iterators */
   size_t lineno;
@@ -227,18 +229,18 @@ static void mark1row(nonogram_solver *c, int lineno);
 
 
 static void makeguess(nonogram_solver *c,
-		      const struct nonogram_point *pos,
-		      nonogram_cell choice,
-		      nonogram_cell *altp);
+                      const struct nonogram_point *pos,
+                      nonogram_cell choice,
+                      nonogram_cell *altp);
 static void flipguess(nonogram_solver *restrict c,
-		      const struct nonogram_point *restrict pos,
-		      nonogram_cell old);
+                      const struct nonogram_point *restrict pos,
+                      nonogram_cell old);
 static void chooseguess(nonogram_solver *restrict c,
-			const struct nonogram_rect *restrict from,
-			struct nonogram_point *restrict pos,
-			nonogram_cell *restrict choice);
+                        const struct nonogram_rect *restrict from,
+                        struct nonogram_point *restrict pos,
+                        nonogram_cell *restrict choice);
 static void findminrect(nonogram_solver *c, struct nonogram_rect *b,
-			const struct nonogram_rect *from);
+                        const struct nonogram_rect *from);
 static void findeasiest(nonogram_solver *c);
 
 int nonogram_testtries(void *vt)
@@ -331,7 +333,7 @@ int nonogram_runcycles(nonogram_solver *c, int (*test)(void *), void *data)
 #if nonogram_LOGLEVEL > 0
       if (c->log.file) {
         fprintf(c->log.file, "%*s         Inconsistency!\n",
-		c->log.indent, "");
+                c->log.indent, "");
         fflush(c->log.file);
       }
 #endif
@@ -340,28 +342,28 @@ int nonogram_runcycles(nonogram_solver *c, int (*test)(void *), void *data)
 
 #if nonogram_LOGLEVEL > 0
       if (c->log.file) {
-	size_t i;
-	fprintf(c->log.file, "%*s   End: >", c->log.indent, "");
-	for (i = 0; i < linelen; i++)
-	  switch (c->work[i]) {
-	  case nonogram_BLANK:
-	    fputc(' ', c->log.file);
-	    break;
-	  case nonogram_DOT:
-	    fputc('-', c->log.file);
-	    break;
-	  case nonogram_SOLID:
-	    fputc('#', c->log.file);
-	    break;
-	  case nonogram_BOTH:
-	    fputc('+', c->log.file);
-	    break;
-	  default:
-	    fputc('?', c->log.file);
-	    break;
-	  }
-	fprintf(c->log.file, "<\n");
-	fflush(c->log.file);
+        size_t i;
+        fprintf(c->log.file, "%*s   End: >", c->log.indent, "");
+        for (i = 0; i < linelen; i++)
+          switch (c->work[i]) {
+          case nonogram_BLANK:
+            fputc(' ', c->log.file);
+            break;
+          case nonogram_DOT:
+            fputc('-', c->log.file);
+            break;
+          case nonogram_SOLID:
+            fputc('#', c->log.file);
+            break;
+          case nonogram_BOTH:
+            fputc('+', c->log.file);
+            break;
+          default:
+            fputc('?', c->log.file);
+            break;
+          }
+        fprintf(c->log.file, "<\n");
+        fflush(c->log.file);
       } /* log file reported */
 #endif
 
@@ -370,25 +372,25 @@ int nonogram_runcycles(nonogram_solver *c, int (*test)(void *), void *data)
 
       /* indicate choice to display */
       if (c->on_row) {
-	if (c->rowattr[c->lineno].dot == 0 &&
-	    c->rowattr[c->lineno].solid == 0)
-	  c->rowflag[c->lineno] = 0;
-	else if (c->fits < 0 && changed)
-	  c->rowflag[c->lineno] = c->levels;
-	else
-	  --c->rowflag[c->lineno];
-	if (!c->rowflag[c->lineno]) c->reminfo--;
-	mark1row(c, c->lineno);
+        if (c->rowattr[c->lineno].dot == 0 &&
+            c->rowattr[c->lineno].solid == 0)
+          c->rowflag[c->lineno] = 0;
+        else if (c->fits < 0 && changed)
+          c->rowflag[c->lineno] = c->levels;
+        else
+          --c->rowflag[c->lineno];
+        if (!c->rowflag[c->lineno]) c->reminfo--;
+        mark1row(c, c->lineno);
       } else {
-	if (c->colattr[c->lineno].dot == 0 &&
-	    c->colattr[c->lineno].solid == 0)
-	  c->colflag[c->lineno] = 0;
-	else if (c->fits < 0 && changed)
-	  c->colflag[c->lineno] = c->levels;
-	else
-	  --c->colflag[c->lineno];
-	if (!c->colflag[c->lineno]) c->reminfo--;
-	mark1col(c, c->lineno);
+        if (c->colattr[c->lineno].dot == 0 &&
+            c->colattr[c->lineno].solid == 0)
+          c->colflag[c->lineno] = 0;
+        else if (c->fits < 0 && changed)
+          c->colflag[c->lineno] = c->levels;
+        else
+          --c->colflag[c->lineno];
+        if (!c->colflag[c->lineno]) c->reminfo--;
+        mark1col(c, c->lineno);
       }
     }
 
@@ -404,7 +406,7 @@ int nonogram_runcycles(nonogram_solver *c, int (*test)(void *), void *data)
 #if nonogram_LOGLEVEL > 0
     if (c->log.file) {
       fprintf(c->log.file, "%*sCells: %d; Lines: %d\n", c->log.indent, "",
-	      c->remcells, c->reminfo);
+              c->remcells, c->reminfo);
       fflush(c->log.file);
     }
 #endif
@@ -425,13 +427,13 @@ int nonogram_runcycles(nonogram_solver *c, int (*test)(void *), void *data)
 
 #if nonogram_LOGLEVEL > 0
       if (c->log.file) {
-	fprintf(c->log.file, "%*sRestoring (%lu,%lu)-(%lu,%lu) from stack\n",
-		c->log.indent, "",
-		(unsigned long) st->unkarea.min.x,
-		(unsigned long) st->unkarea.min.y,
-		(unsigned long) (st->unkarea.max.x - 1),
-		(unsigned long) (st->unkarea.max.y - 1));
-	fflush(c->log.file);
+        fprintf(c->log.file, "%*sRestoring (%lu,%lu)-(%lu,%lu) from stack\n",
+                c->log.indent, "",
+                (unsigned long) st->unkarea.min.x,
+                (unsigned long) st->unkarea.min.y,
+                (unsigned long) (st->unkarea.max.x - 1),
+                (unsigned long) (st->unkarea.max.y - 1));
+        fflush(c->log.file);
       }
 #endif
 
@@ -441,9 +443,9 @@ int nonogram_runcycles(nonogram_solver *c, int (*test)(void *), void *data)
 
 #if nonogram_LOGLEVEL > 0
       if (c->log.file) {
-	fprintf(c->log.file, "%*sCells: %d; Lines: %d\n", c->log.indent, "",
-		c->remcells, c->reminfo);
-	fflush(c->log.file);
+        fprintf(c->log.file, "%*sCells: %d; Lines: %d\n", c->log.indent, "",
+                c->remcells, c->reminfo);
+        fflush(c->log.file);
       }
 #endif
 
@@ -460,51 +462,51 @@ int nonogram_runcycles(nonogram_solver *c, int (*test)(void *), void *data)
 
       /* Restore rows. */
       for (size_t y = 0; y < h; y++) {
-	/* Translate the co-ordinate system. */
-	const size_t ry = y + st->unkarea.min.y;
+        /* Translate the co-ordinate system. */
+        const size_t ry = y + st->unkarea.min.y;
 
-	/* Restore each row of cells. */
-	memcpy(c->grid + st->unkarea.min.x + ry * c->puzzle->width,
-	       st->grid + y * w, w * sizeof(nonogram_cell));
+        /* Restore each row of cells. */
+        memcpy(c->grid + st->unkarea.min.x + ry * c->puzzle->width,
+               st->grid + y * w, w * sizeof(nonogram_cell));
 
-	/* Indicate that the line has no solvers yet to be applied. */
-	c->rowflag[ry] = 0;
+        /* Indicate that the line has no solvers yet to be applied. */
+        c->rowflag[ry] = 0;
 
-	/* Also restore scores. */
-	c->rowattr[ry] = st->rowattr[y];
+        /* Also restore scores. */
+        c->rowattr[ry] = st->rowattr[y];
       }
 
       /* Restore columns. */
       for (size_t x = 0; x < w; x++) {
-	/* Translate the co-ordinate system. */
-	const size_t rx = x + st->unkarea.min.x;
+        /* Translate the co-ordinate system. */
+        const size_t rx = x + st->unkarea.min.x;
 
-	/* Indicate that the line has no solvers yet to be applied. */
-	c->colflag[rx] = 0;
+        /* Indicate that the line has no solvers yet to be applied. */
+        c->colflag[rx] = 0;
 
-	/* Also restore scores. */
-	c->colattr[rx] = st->colattr[x];
+        /* Also restore scores. */
+        c->colattr[rx] = st->colattr[x];
       }
 
       /* Correct the flags for the row and column where the last guess
-	 was made. */
+         was made. */
       c->colflag[st->guesspos.x] = c->levels;
       c->rowflag[st->guesspos.y] = c->levels;
 
       /* Update screen with restored data. */
       if (c->display && c->display->redrawarea)
-	(*c->display->redrawarea)(c->display_data, &st->unkarea);
+        (*c->display->redrawarea)(c->display_data, &st->unkarea);
       if (c->display && c->display->colmark)
-	(*c->display->colmark)(c->display_data,
-			       st->unkarea.min.x, st->unkarea.max.x);
+        (*c->display->colmark)(c->display_data,
+                               st->unkarea.min.x, st->unkarea.max.x);
       if (c->display && c->display->rowmark)
-	(*c->display->rowmark)(c->display_data,
-			       st->unkarea.min.y, st->unkarea.max.y);
+        (*c->display->rowmark)(c->display_data,
+                               st->unkarea.min.y, st->unkarea.max.y);
 
       /* Pop the entry from the stack. */
       c->log.indent -= 2;
       if (c->log.file)
-	fprintf(c->log.file, "%*s}\n", c->log.indent, "");
+        fprintf(c->log.file, "%*s}\n", c->log.indent, "");
       c->stack = st->next;
       free(st);
       return nonogram_LINE;
@@ -518,12 +520,12 @@ int nonogram_runcycles(nonogram_solver *c, int (*test)(void *), void *data)
     if (c->on_row) {
 #if nonogram_LOGLEVEL > 0
       if (c->log.file) {
-	fprintf(c->log.file, "%*sRow %d [%d]: (%lu) ",
-		c->log.indent, "", c->lineno, c->rowattr[c->lineno].score,
-		(unsigned long) c->puzzle->row[c->lineno].len);
-	nonogram_printrule(c->puzzle->row + c->lineno, c->log.file);
-	fprintf(c->log.file, " {\n");
-	fflush(c->log.file);
+        fprintf(c->log.file, "%*sRow %d [%d]: (%lu) ",
+                c->log.indent, "", c->lineno, c->rowattr[c->lineno].score,
+                (unsigned long) c->puzzle->row[c->lineno].len);
+        nonogram_printrule(c->puzzle->row + c->lineno, c->log.file);
+        fprintf(c->log.file, " {\n");
+        fflush(c->log.file);
       }
 #endif
       c->log.indent += 2;
@@ -532,12 +534,12 @@ int nonogram_runcycles(nonogram_solver *c, int (*test)(void *), void *data)
     } else {
 #if nonogram_LOGLEVEL > 0
       if (c->log.file) {
-	fprintf(c->log.file, "%*sColumn %d [%d]: (%lu) ",
-		c->log.indent, "", c->lineno, c->colattr[c->lineno].score,
-		(unsigned long) c->puzzle->col[c->lineno].len);
-	nonogram_printrule(c->puzzle->col + c->lineno, c->log.file);
-	fprintf(c->log.file, " {\n");
-	fflush(c->log.file);
+        fprintf(c->log.file, "%*sColumn %d [%d]: (%lu) ",
+                c->log.indent, "", c->lineno, c->colattr[c->lineno].score,
+                (unsigned long) c->puzzle->col[c->lineno].len);
+        nonogram_printrule(c->puzzle->col + c->lineno, c->log.file);
+        fprintf(c->log.file, " {\n");
+        fflush(c->log.file);
       }
 #endif
       c->log.indent += 2;
@@ -601,7 +603,7 @@ int nonogram_runcycles(nonogram_solver *c, int (*test)(void *), void *data)
 
       char *mem = malloc(amount);
       if (!mem)
-	return nonogram_ERROR;
+        return nonogram_ERROR;
       st = (void *) mem;
       st->grid = (void *) (mem + grid_offset);
       st->rowattr = (void *) (mem + attr_offset);
@@ -623,7 +625,7 @@ int nonogram_runcycles(nonogram_solver *c, int (*test)(void *), void *data)
       /* Copy a row of cells. */
       memcpy(st->grid + y * w,
              c->grid + st->unkarea.min.x + ry * c->puzzle->width,
-	     w * sizeof(nonogram_cell));
+             w * sizeof(nonogram_cell));
 
       /* Copy row attributes. */
       st->rowattr[y] = c->rowattr[ry];
@@ -640,9 +642,9 @@ int nonogram_runcycles(nonogram_solver *c, int (*test)(void *), void *data)
       fprintf(c->log.file, "%*sPushing area (%lu,%lu)-(%lu,%lu) {\n",
               c->log.indent, "",
               (unsigned long) st->unkarea.min.x,
-	      (unsigned long) st->unkarea.min.y,
+              (unsigned long) st->unkarea.min.y,
               (unsigned long) (st->unkarea.max.x - 1),
-	      (unsigned long) (st->unkarea.max.y - 1));
+              (unsigned long) (st->unkarea.max.y - 1));
       fflush(c->log.file);
     }
 #endif
@@ -659,15 +661,15 @@ int nonogram_runcycles(nonogram_solver *c, int (*test)(void *), void *data)
 }
 
 static void flipguess(nonogram_solver *restrict c,
-		      const struct nonogram_point *restrict pos,
-		      nonogram_cell newval)
+                      const struct nonogram_point *restrict pos,
+                      nonogram_cell newval)
 {
   /* Change the cell to the alternative guess. */
   c->grid[pos->x + pos->y * c->puzzle->width] = newval;
 #if nonogram_LOGLEVEL > 0
   if (c->log.file) {
     fprintf(c->log.file, "%*sFlipped guess %c at (%zu,%zu)\n",
-	    c->log.indent, "",
+            c->log.indent, "",
             newval == nonogram_DOT ? '-' : '#',
             pos->x, pos->y);
     fflush(c->log.file);
@@ -708,9 +710,9 @@ static void flipguess(nonogram_solver *restrict c,
 }
 
 static void makeguess(nonogram_solver *restrict c,
-		      const struct nonogram_point *restrict pos,
-		      nonogram_cell guess,
-		      nonogram_cell *restrict altp)
+                      const struct nonogram_point *restrict pos,
+                      nonogram_cell guess,
+                      nonogram_cell *restrict altp)
 {
   assert(guess == nonogram_DOT || guess == nonogram_SOLID);
 
@@ -748,7 +750,7 @@ static void makeguess(nonogram_solver *restrict c,
 #if nonogram_LOGLEVEL > 0
   if (c->log.file) {
     fprintf(c->log.file, "%*sCells: %d; Lines: %d\n", c->log.indent, "",
-	    c->remcells, c->reminfo);
+            c->remcells, c->reminfo);
     fflush(c->log.file);
   }
 #endif
@@ -757,8 +759,8 @@ static void makeguess(nonogram_solver *restrict c,
 /* This sets the rectangle *b to the smallest inclusive rectangle that
  * covers all the unknown cells. */
 static void findminrect(nonogram_solver *restrict c,
-			struct nonogram_rect *restrict b,
-			const struct nonogram_rect *restrict orig)
+                        struct nonogram_rect *restrict b,
+                        const struct nonogram_rect *restrict orig)
 {
   assert(orig);
 
@@ -769,44 +771,44 @@ static void findminrect(nonogram_solver *restrict c,
 #if nonogram_LOGLEVEL > 3
   if (c->log.level > 3 && c->log.file) {
     fprintf(c->log.file, "Total: [0,0]-(%zu,%zu)\n",
-	    c->puzzle->width, c->puzzle->height);
+            c->puzzle->width, c->puzzle->height);
     fprintf(c->log.file, "orig: [%zu,%zu]-(%zu,%zu)\n",
-	    orig->min.x, orig->min.y, orig->max.x, orig->max.y);
+            orig->min.x, orig->min.y, orig->max.x, orig->max.y);
     size_t pos = 0;
     for (size_t y = 0; y < c->puzzle->height; y++) {
       for (size_t x = 0; x < c->puzzle->width; x++, pos++) {
-	if (x >= orig->min.x && x < orig->max.x &&
-	    y >= orig->min.y && y < orig->max.y) {
-	  switch (grid[pos]) {
-	  case nonogram_BLANK:
-	    fputc('x', c->log.file);
-	    break;
-	  case nonogram_DOT:
-	    fputc('\'', c->log.file);
-	    break;
-	  case nonogram_SOLID:
-	    fputc('O', c->log.file);
-	    break;
-	  default:
-	    fputc('"', c->log.file);
-	    break;
-	  }
-	} else {
-	  switch (grid[pos]) {
-	  case nonogram_BLANK:
-	    fputc(' ', c->log.file);
-	    break;
-	  case nonogram_DOT:
-	    fputc('-', c->log.file);
-	    break;
-	  case nonogram_SOLID:
-	    fputc('#', c->log.file);
-	    break;
-	  default:
-	    fputc('?', c->log.file);
-	    break;
-	  }
-	}
+        if (x >= orig->min.x && x < orig->max.x &&
+            y >= orig->min.y && y < orig->max.y) {
+          switch (grid[pos]) {
+          case nonogram_BLANK:
+            fputc('x', c->log.file);
+            break;
+          case nonogram_DOT:
+            fputc('\'', c->log.file);
+            break;
+          case nonogram_SOLID:
+            fputc('O', c->log.file);
+            break;
+          default:
+            fputc('"', c->log.file);
+            break;
+          }
+        } else {
+          switch (grid[pos]) {
+          case nonogram_BLANK:
+            fputc(' ', c->log.file);
+            break;
+          case nonogram_DOT:
+            fputc('-', c->log.file);
+            break;
+          case nonogram_SOLID:
+            fputc('#', c->log.file);
+            break;
+          default:
+            fputc('?', c->log.file);
+            break;
+          }
+        }
       }
       fputc('\n', c->log.file);
     }
@@ -823,8 +825,8 @@ static void findminrect(nonogram_solver *restrict c,
     size_t ls = orig->min.x + b->min.y * pwidth;
     while (ls < lim) {
       if (grid[ls] == nonogram_BLANK) {
-	b->max.x = (b->min.x = ls % pwidth) + 1;
-	goto found_first;
+        b->max.x = (b->min.x = ls % pwidth) + 1;
+        goto found_first;
       }
       ls++;
     }
@@ -835,7 +837,7 @@ static void findminrect(nonogram_solver *restrict c,
 #if nonogram_LOGLEVEL > 4
   if (c->log.level > 4 && c->log.file) {
     fprintf(c->log.file, "selected left of top: [%zu,%zu]-(%zu,%zu)\n",
-	    b->min.x, b->min.y, b->max.x, b->max.y);
+            b->min.x, b->min.y, b->max.x, b->max.y);
   }
 #endif
 
@@ -847,14 +849,14 @@ static void findminrect(nonogram_solver *restrict c,
       assert(xlim >= ls);
       assert(xlim - ls <= orig->max.x - orig->min.x);
       while (ls < xlim) {
-	if (grid[ls] == nonogram_BLANK) {
-	  b->max.y = y + 1;
-	  size_t nx = ls % pwidth;
-	  if (nx < b->min.x)
-	    b->min.x = nx;
-	  break;
-	}
-	ls++;
+        if (grid[ls] == nonogram_BLANK) {
+          b->max.y = y + 1;
+          size_t nx = ls % pwidth;
+          if (nx < b->min.x)
+            b->min.x = nx;
+          break;
+        }
+        ls++;
       }
     }
   }
@@ -863,7 +865,7 @@ static void findminrect(nonogram_solver *restrict c,
 #if nonogram_LOGLEVEL > 4
   if (c->log.level > 4 && c->log.file) {
     fprintf(c->log.file, "selected bottom left corner: [%zu,%zu]-(%zu,%zu)\n",
-	    b->min.x, b->min.y, b->max.x, b->max.y);
+            b->min.x, b->min.y, b->max.x, b->max.y);
   }
 #endif
 
@@ -878,12 +880,12 @@ static void findminrect(nonogram_solver *restrict c,
       assert(ls >= xlim);
       assert(ls - xlim == orig->max.x - old_b_x);
       while (ls > xlim) {
-	if (grid[ls - 1] == nonogram_BLANK) {
-	  b->max.x = (ls + pwidth - 1) % pwidth + 1;
-	  b->max.y = y;
-	  break;
-	}
-	ls--;
+        if (grid[ls - 1] == nonogram_BLANK) {
+          b->max.x = (ls + pwidth - 1) % pwidth + 1;
+          b->max.y = y;
+          break;
+        }
+        ls--;
       }
     }
   }
@@ -891,7 +893,7 @@ static void findminrect(nonogram_solver *restrict c,
 #if nonogram_LOGLEVEL > 4
   if (c->log.level > 4 && c->log.file) {
     fprintf(c->log.file, "selected right of bottom: [%zu,%zu]-(%zu,%zu)\n",
-	    b->min.x, b->min.y, b->max.x, b->max.y);
+            b->min.x, b->min.y, b->max.x, b->max.y);
   }
 #endif
 
@@ -899,23 +901,23 @@ static void findminrect(nonogram_solver *restrict c,
   {
     size_t xlim = b->max.x + (b->max.y - 1) * pwidth;
     for (size_t y = b->max.y;
-	 b->max.x < orig->max.x && y > b->min.y;
-	 y--, xlim -= pwidth) {
+         b->max.x < orig->max.x && y > b->min.y;
+         y--, xlim -= pwidth) {
       size_t ls = orig->max.x + (y - 1) * pwidth;
       assert(ls >= xlim);
       while (ls > xlim) {
-	if (grid[ls - 1] == nonogram_BLANK) {
-	  b->max.x = (ls + pwidth - 1) % pwidth + 1;
+        if (grid[ls - 1] == nonogram_BLANK) {
+          b->max.x = (ls + pwidth - 1) % pwidth + 1;
 #if nonogram_LOGLEVEL > 4
-	  if (c->log.level > 4 && c->log.file) {
-	    fprintf(c->log.file, "row %zu detected blank at %zu\n",
-		    y, b->max.x);
-	  }
+          if (c->log.level > 4 && c->log.file) {
+            fprintf(c->log.file, "row %zu detected blank at %zu\n",
+                    y, b->max.x);
+          }
 #endif
-	  xlim = ls;
-	  break;
-	}
-	ls--;
+          xlim = ls;
+          break;
+        }
+        ls--;
       }
     }
   }
@@ -931,78 +933,78 @@ static void findminrect(nonogram_solver *restrict c,
        rectangle. */
     for (size_t y = 0; y < b->min.y; y++)
       for (size_t x = 0; x < c->puzzle->width; x++)
-	assert(grid[x + y * pwidth] != nonogram_BLANK);
+        assert(grid[x + y * pwidth] != nonogram_BLANK);
 
     for (size_t y = b->min.y; y < b->max.y; y++) {
       for (size_t x = 0; x < b->min.x; x++)
-	assert(grid[x + y * pwidth] != nonogram_BLANK);
+        assert(grid[x + y * pwidth] != nonogram_BLANK);
       for (size_t x = b->max.x; x < c->puzzle->width; x++)
-	assert(grid[x + y * pwidth] != nonogram_BLANK);
+        assert(grid[x + y * pwidth] != nonogram_BLANK);
     }
     for (size_t y = b->max.y; y < c->puzzle->height; y++)
       for (size_t x = 0; x < c->puzzle->width; x++)
-	assert(grid[x + y * pwidth] != nonogram_BLANK);
+        assert(grid[x + y * pwidth] != nonogram_BLANK);
   }
 #endif
 
 #if nonogram_LOGLEVEL > 3
   if (c->log.level > 3 && c->log.file) {
     fprintf(c->log.file, "selected: [%zu,%zu]-(%zu,%zu)\n",
-	    b->min.x, b->min.y, b->max.x, b->max.y);
+            b->min.x, b->min.y, b->max.x, b->max.y);
     size_t pos = 0;
     for (size_t y = 0; y < c->puzzle->height; y++) {
       for (size_t x = 0; x < c->puzzle->width; x++, pos++) {
-	if (x >= b->min.x && x < b->max.x &&
-	    y >= b->min.y && y < b->max.y) {
-	  switch (grid[pos]) {
-	  case nonogram_BLANK:
-	    fputc('=', c->log.file);
-	    break;
-	  case nonogram_DOT:
-	    fputc('.', c->log.file);
-	    break;
-	  case nonogram_SOLID:
-	    fputc('*', c->log.file);
-	    break;
-	  default:
-	    fputc('!', c->log.file);
-	    break;
-	  }
-	  continue;
-	}
+        if (x >= b->min.x && x < b->max.x &&
+            y >= b->min.y && y < b->max.y) {
+          switch (grid[pos]) {
+          case nonogram_BLANK:
+            fputc('=', c->log.file);
+            break;
+          case nonogram_DOT:
+            fputc('.', c->log.file);
+            break;
+          case nonogram_SOLID:
+            fputc('*', c->log.file);
+            break;
+          default:
+            fputc('!', c->log.file);
+            break;
+          }
+          continue;
+        }
 
-	if (x >= orig->min.x && x < orig->max.x &&
-	    y >= orig->min.y && y < orig->max.y) {
-	  switch (grid[pos]) {
-	  case nonogram_BLANK:
-	    fputc('x', c->log.file);
-	    break;
-	  case nonogram_DOT:
-	    fputc('\'', c->log.file);
-	    break;
-	  case nonogram_SOLID:
-	    fputc('O', c->log.file);
-	    break;
-	  default:
-	    fputc('"', c->log.file);
-	    break;
-	  }
-	} else {
-	  switch (grid[pos]) {
-	  case nonogram_BLANK:
-	    fputc(' ', c->log.file);
-	    break;
-	  case nonogram_DOT:
-	    fputc('-', c->log.file);
-	    break;
-	  case nonogram_SOLID:
-	    fputc('#', c->log.file);
-	    break;
-	  default:
-	    fputc('?', c->log.file);
-	    break;
-	  }
-	}
+        if (x >= orig->min.x && x < orig->max.x &&
+            y >= orig->min.y && y < orig->max.y) {
+          switch (grid[pos]) {
+          case nonogram_BLANK:
+            fputc('x', c->log.file);
+            break;
+          case nonogram_DOT:
+            fputc('\'', c->log.file);
+            break;
+          case nonogram_SOLID:
+            fputc('O', c->log.file);
+            break;
+          default:
+            fputc('"', c->log.file);
+            break;
+          }
+        } else {
+          switch (grid[pos]) {
+          case nonogram_BLANK:
+            fputc(' ', c->log.file);
+            break;
+          case nonogram_DOT:
+            fputc('-', c->log.file);
+            break;
+          case nonogram_SOLID:
+            fputc('#', c->log.file);
+            break;
+          default:
+            fputc('?', c->log.file);
+            break;
+          }
+        }
       }
       fputc('\n', c->log.file);
     }
@@ -1024,8 +1026,8 @@ static void findeasiest(nonogram_solver *c)
 
   for (i = 0; i < c->puzzle->height; i++)
     if (c->rowflag[i] > c->level ||
-	(c->level > 0 && c->rowflag[i] == c->level &&
-	 c->rowattr[i].score > score)) {
+        (c->level > 0 && c->rowflag[i] == c->level &&
+         c->rowattr[i].score > score)) {
       c->level = c->rowflag[i];
       score = c->rowattr[i].score;
       c->lineno = i;
@@ -1033,8 +1035,8 @@ static void findeasiest(nonogram_solver *c)
 
   for (i = 0; i < c->puzzle->width; i++)
     if (c->colflag[i] > c->level ||
-	(c->level > 0 && c->colflag[i] == c->level &&
-	 c->colattr[i].score > score)) {
+        (c->level > 0 && c->colflag[i] == c->level &&
+         c->colattr[i].score > score)) {
       c->level = c->colflag[i];
       score = c->colattr[i].score;
       c->lineno = i;
@@ -1043,7 +1045,7 @@ static void findeasiest(nonogram_solver *c)
 }
 
 static void makescore(nonogram_lineattr *attr,
-		      const struct nonogram_rule *rule, int len)
+                      const struct nonogram_rule *rule, int len)
 {
   size_t relem;
 
@@ -1096,15 +1098,15 @@ static void gathersolvers(nonogram_solver *c)
       req = zero;
       (*c->linesolver[n].suite->prep)(c->linesolver[n].context, &c->lim, &req);
       if (req.byte > most.byte)
-	most.byte = req.byte;
+        most.byte = req.byte;
       if (req.ptrdiff > most.ptrdiff)
-	most.ptrdiff = req.ptrdiff;
+        most.ptrdiff = req.ptrdiff;
       if (req.size > most.size)
-	most.size = req.size;
+        most.size = req.size;
       if (req.nonogram_size > most.nonogram_size)
-	most.nonogram_size = req.nonogram_size;
+        most.nonogram_size = req.nonogram_size;
       if (req.cell > most.cell)
-	most.cell = req.cell;
+        most.cell = req.cell;
     }
 
   free(c->workspace.byte);
@@ -1199,11 +1201,11 @@ static void setupstep(nonogram_solver *c)
       switch (a.line[i * a.linestep]) {
       case nonogram_DOT:
       case nonogram_SOLID:
-	c->work[i] = a.line[i * a.linestep];
-	break;
+        c->work[i] = a.line[i * a.linestep];
+        break;
       default:
-	c->work[i] = nonogram_BOTH;
-	break;
+        c->work[i] = nonogram_BOTH;
+        break;
       }
 
     c->status = nonogram_DONE;
@@ -1231,11 +1233,11 @@ static void step(nonogram_solver *c)
       switch (line[i * linestep]) {
       case nonogram_DOT:
       case nonogram_SOLID:
-	c->work[i] = line[i * linestep];
-	break;
+        c->work[i] = line[i * linestep];
+        break;
       default:
-	c->work[i] = nonogram_BOTH;
-	break;
+        c->work[i] = nonogram_BOTH;
+        break;
       }
 
     c->status = nonogram_DONE;
@@ -1304,7 +1306,7 @@ static int redeemstep(nonogram_solver *c)
       switch (c->work[i]) {
       case nonogram_DOT:
       case nonogram_SOLID:
-	changed = 1;
+        changed = 1;
         if (!cells.inrange) {
           cells.from = i;
           cells.inrange = true;
@@ -1422,16 +1424,16 @@ static void redrawrange(nonogram_solver *c, int from, int to)
 /* Find the best cell to make a guess at, and specify what that guess
    should be. */
 static void chooseguess(nonogram_solver *restrict c,
-			const struct nonogram_rect *restrict from,
-			struct nonogram_point *restrict pos,
-			nonogram_cell *restrict choice)
+                        const struct nonogram_rect *restrict from,
+                        struct nonogram_point *restrict pos,
+                        nonogram_cell *restrict choice)
 {
   size_t x, y;
 #if 1
   for (x = from->min.x; x < from->max.x; x++)
     for (y = from->min.y; y < from->max.y; y++)
       if (c->grid[x + y * c->puzzle->width] == nonogram_BLANK)
-	goto found;
+        goto found;
   assert(false);
  found:
   pos->x = x;
@@ -1444,89 +1446,89 @@ static void chooseguess(nonogram_solver *restrict c,
     for (x = from->min.x; x < from->max.x; x++) {
       int unknown_in_col = c->colattr[x].dot + c->colattr[x].solid;
       for (y = from->min.y; y < from->max.y; y++) {
-	if (c->grid[x + y * c->puzzle->width] != nonogram_BLANK)
-	  continue;
+        if (c->grid[x + y * c->puzzle->width] != nonogram_BLANK)
+          continue;
 
-	int score = 0;
-
-#if 1
-	/* Use the heuristic line scores. */
-	score += c->rowattr[y].score + c->colattr[x].score;
-#endif
-
-#if 0
-	/* Add a constant to prevent negative numbers.  It's
-	   probably not worth using this, as it is just more work
-	   with no extra descrimination.  */
-	score += c->puzzle->width + c->puzzle->height;
-#endif
-
-#if 0
-	/* Favour lines with a high imbalance of unknown dots and
-	   solids. */
-
-	score += 100 * c->rowattr[y].dot / c->rowattr[y].solid;
-	score += 100 * c->rowattr[y].solid / c->rowattr[y].dot;
-
-	score += 100 * c->colattr[x].dot / c->colattr[x].solid;
-	score += 100 * c->colattr[x].solid / c->colattr[x].dot;
-#endif
-
-#if 0
-	/* Favour cells with a high imbalance of unknown dots and
-	   solids. */
-
-	score += 100 * (c->colattr[x].dot + c->rowattr[y].dot)
-	  / (c->rowattr[y].solid + c->colattr[x].solid);
-	score += 100 * (c->rowattr[y].solid + c->colattr[x].solid)
-	  / (c->rowattr[y].dot + c->colattr[x].dot);
-#endif
+        int score = 0;
 
 #if 1
-	/* Ignore a line's unknown count if its perpendicular has
-	   a smaller unknown count. */
-	int unknown_in_row = c->rowattr[y].dot + c->rowattr[y].solid;
-	if (unknown_in_row < unknown_in_col)
-	  score -= unknown_in_row;
-	else
-	  score -= unknown_in_col;
+        /* Use the heuristic line scores. */
+        score += c->rowattr[y].score + c->colattr[x].score;
 #endif
 
 #if 0
-	/* Favour cells that are in a 'corner'. */
-	if (x == 0 ||
-	    c->grid[(x - 1) + y * c->puzzle->width]
-	    != nonogram_BLANK)
-	  score += c->puzzle->width;
-	if (x + 1 == c->puzzle->width ||
-	    c->grid[(x + 1) + y * c->puzzle->width]
-	    != nonogram_BLANK)
-	  score += c->puzzle->width;
-	if (y == 0 ||
-	    c->grid[x + (y - 1) * c->puzzle->width]
-	    != nonogram_BLANK)
-	  score += c->puzzle->height;
-	if (y + 1 == c->puzzle->height ||
-	    c->grid[x + (y + 1) * c->puzzle->width]
-	    != nonogram_BLANK)
-	  score += c->puzzle->height;
+        /* Add a constant to prevent negative numbers.  It's
+           probably not worth using this, as it is just more work
+           with no extra descrimination.  */
+        score += c->puzzle->width + c->puzzle->height;
 #endif
 
 #if 0
-	/* Favour lines with fewer unknowns. */
-	score -= c->colattr[x].dot;
-	score -= c->rowattr[y].dot;
-	score -= c->colattr[x].solid;
-	score -= c->rowattr[y].solid;
+        /* Favour lines with a high imbalance of unknown dots and
+           solids. */
+
+        score += 100 * c->rowattr[y].dot / c->rowattr[y].solid;
+        score += 100 * c->rowattr[y].solid / c->rowattr[y].dot;
+
+        score += 100 * c->colattr[x].dot / c->colattr[x].solid;
+        score += 100 * c->colattr[x].solid / c->colattr[x].dot;
+#endif
+
+#if 0
+        /* Favour cells with a high imbalance of unknown dots and
+           solids. */
+
+        score += 100 * (c->colattr[x].dot + c->rowattr[y].dot)
+          / (c->rowattr[y].solid + c->colattr[x].solid);
+        score += 100 * (c->rowattr[y].solid + c->colattr[x].solid)
+          / (c->rowattr[y].dot + c->colattr[x].dot);
+#endif
+
+#if 1
+        /* Ignore a line's unknown count if its perpendicular has
+           a smaller unknown count. */
+        int unknown_in_row = c->rowattr[y].dot + c->rowattr[y].solid;
+        if (unknown_in_row < unknown_in_col)
+          score -= unknown_in_row;
+        else
+          score -= unknown_in_col;
+#endif
+
+#if 0
+        /* Favour cells that are in a 'corner'. */
+        if (x == 0 ||
+            c->grid[(x - 1) + y * c->puzzle->width]
+            != nonogram_BLANK)
+          score += c->puzzle->width;
+        if (x + 1 == c->puzzle->width ||
+            c->grid[(x + 1) + y * c->puzzle->width]
+            != nonogram_BLANK)
+          score += c->puzzle->width;
+        if (y == 0 ||
+            c->grid[x + (y - 1) * c->puzzle->width]
+            != nonogram_BLANK)
+          score += c->puzzle->height;
+        if (y + 1 == c->puzzle->height ||
+            c->grid[x + (y + 1) * c->puzzle->width]
+            != nonogram_BLANK)
+          score += c->puzzle->height;
+#endif
+
+#if 0
+        /* Favour lines with fewer unknowns. */
+        score -= c->colattr[x].dot;
+        score -= c->rowattr[y].dot;
+        score -= c->colattr[x].solid;
+        score -= c->rowattr[y].solid;
 #endif
 
 
 
-	if (score <= bestscore)
-	  continue;
-	bestscore = score;
-	pos->x = x;
-	pos->y = y;
+        if (score <= bestscore)
+          continue;
+        bestscore = score;
+        pos->x = x;
+        pos->y = y;
       }
     }
   }

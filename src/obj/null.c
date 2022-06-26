@@ -1,3 +1,5 @@
+// -*- c-basic-offset: 2; indent-tabs-mode: nil -*-
+
 /*
  *  Nonolib - Nonogram-solver library
  *  Copyright (C) 2001,2005-8,2012  Steven Simpson
@@ -31,7 +33,7 @@
 
 static void prep(void *, const struct nonogram_lim *, struct nonogram_req *);
 static int init(void *, struct nonogram_ws *ws,
-		const struct nonogram_initargs *a);
+                const struct nonogram_initargs *a);
 
 const struct nonogram_linesuite nonogram_nullsuite = {
   &prep, &init, 0, 0
@@ -48,7 +50,7 @@ static void prep(void *c, const struct nonogram_lim *l, struct nonogram_req *r)
 }
 
 static int init(void *ct, struct nonogram_ws *c,
-		const struct nonogram_initargs *a)
+                const struct nonogram_initargs *a)
 {
   size_t i;
 
@@ -67,7 +69,7 @@ static int init(void *ct, struct nonogram_ws *c,
     }
 
   switch (nonogram_checkline(a->rule, a->rulelen, a->rulestep,
-			     a->line, a->linelen, a->linestep)) {
+                             a->line, a->linelen, a->linestep)) {
   case 0:
   case 1:
     *a->fits = 1;

@@ -1,3 +1,5 @@
+// -*- c-basic-offset: 2; indent-tabs-mode: nil -*-
+
 /*
  *  Nonolib - Nonogram-solver library
  *  Copyright (C) 2001,2005-8,2012  Steven Simpson
@@ -31,9 +33,9 @@
 #endif
 
 static void prep(void *,
-		 const struct nonogram_lim *, struct nonogram_req *);
+                 const struct nonogram_lim *, struct nonogram_req *);
 static int init(void *, struct nonogram_ws *ws,
-		const struct nonogram_initargs *);
+                const struct nonogram_initargs *);
 static int step(void *, void *ws);
 
 const struct nonogram_linesuite nonogram_completesuite = {
@@ -44,7 +46,7 @@ const struct nonogram_linesuite nonogram_completesuite = {
 };
 
 static void prep(void *c,
-		 const struct nonogram_lim *l, struct nonogram_req *r)
+                 const struct nonogram_lim *l, struct nonogram_req *r)
 {
   UNUSED(c);
   r->byte = sizeof(nonogram_completework);
@@ -54,7 +56,7 @@ static void prep(void *c,
 }
 
 static int init(void *ct, struct nonogram_ws *ws,
-		const struct nonogram_initargs *a)
+                const struct nonogram_initargs *a)
 {
   nonogram_completework *c = ws->byte;
   unsigned long i;
@@ -101,8 +103,8 @@ static int init(void *ct, struct nonogram_ws *ws,
 }
 
 static void merge(nonogram_cell *rec, size_t len, ptrdiff_t ri, int *blank,
-		  const nonogram_sizetype *rule, size_t rulelen,
-		  ptrdiff_t rstep, const nonogram_sizetype *pos)
+                  const nonogram_sizetype *rule, size_t rulelen,
+                  ptrdiff_t rstep, const nonogram_sizetype *pos)
 {
   nonogram_sizetype i;
   size_t ruleno;
@@ -153,7 +155,7 @@ static int step(void *ws, void *vc)
         fprintf(c->log->file, "%*s", c->pos[c->blockno], "");
         fprintf(c->log->file, "%0*d", c->ru[c->blockno * c->rui], 0);
         fprintf(c->log->file, "%*s", c->lnlen - c->pos[c->blockno] -
-		c->ru[c->blockno * c->rui], "");
+                c->ru[c->blockno * c->rui], "");
         fprintf(c->log->file, "<\n");
       }
 #endif
@@ -177,7 +179,7 @@ static int step(void *ws, void *vc)
 
     /* check there are no remaining solids */
     bp = (c->blockno > 0 ?
-	 c->pos[c->blockno - 1] + c->ru[c->rui * (c->blockno - 1)] + 1 : 0);
+         c->pos[c->blockno - 1] + c->ru[c->rui * (c->blockno - 1)] + 1 : 0);
     while (bp < c->lnlen) {
       if (c->ln[c->lni * bp] == nonogram_SOLID) {
         c->move_back = true;
@@ -191,15 +193,15 @@ static int step(void *ws, void *vc)
     if (c->log->file && c->log->level > 0) {
       fprintf(c->log->file, "%*s   Fit: >", c->log->indent, "");
       for (i = j = 0; i < c->rulen; i++) {
-	k = c->pos[i];
-	while (j < k)
-	  j++, fputc('-', c->log->file);
-	k += c->ru[c->rui * i];
-	while (j < k)
-	  j++, fputc('#', c->log->file);
+        k = c->pos[i];
+        while (j < k)
+          j++, fputc('-', c->log->file);
+        k += c->ru[c->rui * i];
+        while (j < k)
+          j++, fputc('#', c->log->file);
       }
       while (j < c->lnlen)
-	j++, fputc('-', c->log->file);
+        j++, fputc('-', c->log->file);
       fprintf(c->log->file, "<\n");
     }
 #endif
@@ -207,7 +209,7 @@ static int step(void *ws, void *vc)
     /* merge with work */
     /* merge();  */
     merge(c->re, c->lnlen, c->rei, &c->remunk,
-	  c->ru, c->rulen, c->rui, c->pos);
+          c->ru, c->rulen, c->rui, c->pos);
     (*c->fits)++;
     c->move_back = true;
     return true;
@@ -289,7 +291,7 @@ static int step(void *ws, void *vc)
     fprintf(c->log->file, "%*s", (int) c->pos[c->blockno], "");
     fprintf(c->log->file, "%0*d", (int) c->ru[c->blockno * c->rui], 0);
     fprintf(c->log->file, "%*s", (int) (c->lnlen - c->pos[c->blockno] -
-					c->ru[c->blockno * c->rui]), "");
+                                        c->ru[c->blockno * c->rui]), "");
     fprintf(c->log->file, "<\n");
   }
 #endif

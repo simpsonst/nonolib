@@ -1,3 +1,5 @@
+// -*- c-basic-offset: 2; indent-tabs-mode: nil -*-
+
 /*
  *  Nonolib - Nonogram-solver library
  *  Copyright (C) 2001,2005-8,2012  Steven Simpson
@@ -31,7 +33,7 @@
 #endif
 
 static void prep(void *c,
-		 const struct nonogram_lim *l, struct nonogram_req *r)
+                 const struct nonogram_lim *l, struct nonogram_req *r)
 {
   UNUSED(c);
   r->byte = 0;
@@ -41,12 +43,12 @@ static void prep(void *c,
 }
 
 static int solve(const nonogram_cell *line,
-		 size_t linelen, ptrdiff_t linestep,
-		 const nonogram_sizetype *rule,
-		 size_t rulelen, ptrdiff_t rulestep,
-		 nonogram_cell *work, ptrdiff_t workstep,
-		 nonogram_sizetype *lpos, nonogram_sizetype *rpos,
-		 ptrdiff_t *solid, FILE *log, int level, int indent)
+                 size_t linelen, ptrdiff_t linestep,
+                 const nonogram_sizetype *rule,
+                 size_t rulelen, ptrdiff_t rulestep,
+                 nonogram_cell *work, ptrdiff_t workstep,
+                 nonogram_sizetype *lpos, nonogram_sizetype *rpos,
+                 ptrdiff_t *solid, FILE *log, int level, int indent)
 {
   /* nonogram_size */
   size_t i, j, k;
@@ -65,7 +67,7 @@ static int solve(const nonogram_cell *line,
   if (rulelen == 1 && *rule == 0) rulelen = 0;
 
   if (!nonogram_push(line, linelen, linestep, rule, rulelen, rulestep,
-		     lpos, 1, solid, log, level, indent))
+                     lpos, 1, solid, log, level, indent))
     return 0;
 
 #if nonogram_LOGLEVEL > 1
@@ -75,7 +77,7 @@ static int solve(const nonogram_cell *line,
     fprintf(log, "%*s  Left:", indent, "");
     for (bl = 0; bl < rulelen; bl++)
       fprintf(log, " (%2" nonogram_PRIuSIZE " + %2" nonogram_PRIuSIZE ")",
-	      lpos[bl], rule[bl * rulestep]);
+              lpos[bl], rule[bl * rulestep]);
     fprintf(log, "\n%*s  Left: >", indent, "");
     for (bl = 0; bl < rulelen; bl++) {
       while (x < lpos[bl])
@@ -120,9 +122,9 @@ static int solve(const nonogram_cell *line,
 #endif
 
   if (!nonogram_push(rline, linelen, -linestep,
-		     rule + (rulelen - 1) * rulestep,
-		     rulelen, -rulestep, rpos + (rulelen - 1), -1, solid,
-		     log, level, indent))
+                     rule + (rulelen - 1) * rulestep,
+                     rulelen, -rulestep, rpos + (rulelen - 1), -1, solid,
+                     log, level, indent))
     return 0;
 #if nonogram_LOGLEVEL > 1
   if (log && level > 0) {
@@ -131,7 +133,7 @@ static int solve(const nonogram_cell *line,
     fprintf(log, "%*s Right:", indent, "");
     for (bl = 0; bl < rulelen; bl++)
       fprintf(log, " (%2" nonogram_PRIuSIZE " + %2" nonogram_PRIuSIZE ")",
-	      rpos[bl], rule[bl * rulestep]);
+              rpos[bl], rule[bl * rulestep]);
     fprintf(log, "\n%*s Right: >", indent, "");
     for (bl = 0; bl < rulelen; bl++) {
       while (x < linelen - rpos[bl] - rule[bl * rulestep])
@@ -171,10 +173,10 @@ static int solve(const nonogram_cell *line,
     for (i = j = 0; i < rulelen; i++) {
       k = lpos[i];
       while (j < k)
-	j++, fputc('-', log);
+        j++, fputc('-', log);
       k += rule[i * rulestep];
       while (j < k)
-	j++, fputc('#', log);
+        j++, fputc('#', log);
     }
     while (j < linelen)
       j++, fputc('-', log);
@@ -182,10 +184,10 @@ static int solve(const nonogram_cell *line,
     for (i = j = 0; i < rulelen; i++) {
       k = rpos[i];
       while (j < k)
-	j++, fputc('-', log);
+        j++, fputc('-', log);
       k += rule[i * rulestep];
       while (j < k)
-	j++, fputc('#', log);
+        j++, fputc('#', log);
     }
     while (j < linelen)
       j++, fputc('-', log);
@@ -196,14 +198,14 @@ static int solve(const nonogram_cell *line,
 }
 
 static int init(void *ct, struct nonogram_ws *c,
-		const struct nonogram_initargs *a)
+                const struct nonogram_initargs *a)
 {
   UNUSED(ct);
   *a->fits = solve(a->line, a->linelen, a->linestep,
-		   a->rule, a->rulelen, a->rulestep,
-		   a->result, a->resultstep,
-		   c->nonogram_size, c->nonogram_size + a->rulelen,
-		   c->ptrdiff, a->log->file, a->log->level, a->log->indent);
+                   a->rule, a->rulelen, a->rulestep,
+                   a->result, a->resultstep,
+                   c->nonogram_size, c->nonogram_size + a->rulelen,
+                   c->ptrdiff, a->log->file, a->log->level, a->log->indent);
   return false;
 }
 
