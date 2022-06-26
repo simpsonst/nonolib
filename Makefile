@@ -6,7 +6,7 @@ XARGS=xargs
 M4=m4
 CAT=cat
 CP=cp
-GETVERSION=git describe --tags
+GETVERSION=git describe
 
 PREFIX=/usr/local
 
