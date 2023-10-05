@@ -274,8 +274,6 @@ int nonogram_runlines_until(nonogram_solver *c, int *lines, clock_t lim)
   return nonogram_runlines(c, lines, &nonogram_testtime, &lim);
 }
 
-int nonogram_runcycles(nonogram_solver *c, int (*test)(void *), void *data);
-
 int nonogram_runlines(nonogram_solver *c, int *lines,
                       int (*test)(void *), void *data)
 {

@@ -171,6 +171,7 @@ extern "C" {
   int nonogram_runlines_until(nonogram_solver *c, int *lines, clock_t lim);
   int nonogram_runcycles_tries(nonogram_solver *c, int *cycles);
   int nonogram_runcycles_until(nonogram_solver *c, clock_t lim);
+  int nonogram_runcycles(nonogram_solver *c, int (*test)(void *), void *data);
   enum { /* return codes for above calls */
     nonogram_UNLOADED = 0,
     nonogram_FINISHED = 1,
