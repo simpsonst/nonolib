@@ -28,7 +28,7 @@
 
 int main(int argc, char **argv)
 {
-  nonogram_puzzle_t puz;
+  nonogram_puzzle puz;
   FILE *fp;
 
   if (argc < 2) {

@@ -508,10 +508,8 @@ int main(int argc, const char *const *argv)
     printf("Length:   %zu\n", linelen);
     printf("Rule:     ");
     printrule(rule, rulelen);
-    if (line) {
-      printf("\nOriginal: >");
-      printline(line, linelen);
-    }
+    printf("\nOriginal: >");
+    printline(line, linelen);
     printf("<\nBroken:   >");
     printline(broken, linelen);
     printf("<\n");
