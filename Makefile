@@ -43,12 +43,12 @@ headers += nonogram.h
 headers += nonocache.h
 headers += nonogram_version.h
 
-test_binaries += testline
+test_binaries.c += testline
 testline_obj += testline
 testline_obj += $(nonogram_mod)
 
-test_binaries += testio
-testio_obj += testio.o
+test_binaries.c += testio
+testio_obj += testio
 testio_obj += $(nonogram_mod)
 
 SOURCES:=$(patsubst src/obj/%,%,$(filter-out $(headers),$(shell $(FIND) src/obj \( -name "*.c" -o -name "*.h" \))))
